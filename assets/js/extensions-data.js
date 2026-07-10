@@ -59,8 +59,8 @@ const HATCHLINE_EXTENSIONS = [
 
     pricing: {
       model: "One-time purchase",
-      inr: 70,
-      aed: 2.69,
+      inr: 999,
+      aed: 39.00,
       note: "Launch pricing — subject to change as the tool matures. Existing buyers keep their license regardless of future price changes.",
       includes: [
         "Full extension, one Revit login",
