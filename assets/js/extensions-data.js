@@ -59,9 +59,10 @@ const HATCHLINE_EXTENSIONS = [
 
     pricing: {
       model: "One-time purchase",
-      inr: 999,
-      aed: 39.00,
-      note: "Launch pricing — subject to change as the tool matures. Existing buyers keep their license regardless of future price changes.",
+      inr: 70,
+      aed: 2.69,
+      note: "Launch pricing — subject to change. Downloads are provided after you share your details below; licensing/invoicing is handled directly with you afterward.",
+      downloadUrl: "downloads/bulk-export.zip",
       includes: [
         "Full extension, one Revit login",
         "Filename builder + DWG export setups",

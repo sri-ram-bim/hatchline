@@ -183,7 +183,40 @@ footer{ border-top:1px solid var(--hair); padding:44px 0 34px; }
 .ext-badges{ display:flex; gap:6px; flex-wrap:wrap; }
 .ext-badge{ font-family:var(--mono); font-size:10.5px; font-weight:600; padding:3px 8px; border:1px solid var(--hair); border-radius:3px; color:var(--hair-dk); }
 
+/* ---------- lead-capture download modal ---------- */
+.hl-modal-overlay{
+  position:fixed; inset:0; background:rgba(22,40,63,.55);
+  display:flex; align-items:center; justify-content:center;
+  z-index:200; opacity:0; pointer-events:none; transition:opacity .2s ease;
+  padding:20px;
+}
+.hl-modal-overlay.open{ opacity:1; pointer-events:auto; }
+.hl-modal{
+  background:var(--paper); border-radius:8px; padding:34px; width:100%; max-width:420px;
+  position:relative; box-shadow:0 30px 60px -20px rgba(0,0,0,.4);
+  transform:translateY(10px); transition:transform .2s ease;
+}
+.hl-modal-overlay.open .hl-modal{ transform:translateY(0); }
+.hl-modal-close{
+  position:absolute; top:14px; right:16px; background:none; border:none;
+  font-size:22px; line-height:1; color:var(--hair-dk); cursor:pointer;
+}
+.hl-modal-close:hover{ color:var(--ink); }
+.hl-modal h3{ font-size:22px; margin-top:6px; }
+.hl-modal-sub{ font-size:13.5px; color:#4B5157; margin-top:8px; margin-bottom:20px; }
+.hl-field{ margin-bottom:14px; }
+.hl-field label{ display:block; font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:.04em; color:var(--blueprint); margin-bottom:6px; }
+.req-mark{ color:var(--orange-dk); }
+.hl-field input, .hl-field select{
+  width:100%; padding:10px 12px; border:1px solid var(--hair); border-radius:4px;
+  font-family:var(--body); font-size:14.5px; background:#fff; color:var(--graphite);
+}
+.hl-field input:focus, .hl-field select:focus{ border-color:var(--orange); outline:none; }
+.hl-error{ color:#B4483C; font-size:13px; margin:0 0 12px; }
+.hl-privacy{ font-size:11.5px; color:var(--hair-dk); text-align:center; margin-top:12px; }
+
 /* ---------- empty state (future category placeholder) ---------- */
+
 .empty-card{
   border:1px dashed var(--hair-dk); border-radius:6px; padding:26px;
   display:flex; flex-direction:column; justify-content:center; gap:8px;

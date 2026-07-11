@@ -37,7 +37,6 @@
     '?subject=' + encodeURIComponent('Hatchline - ' + ext.name + ' - Access Request') + '">Request access</a>';
 
   var mailtoAccess = 'mailto:' + ext.developer.email + '?subject=' + encodeURIComponent('Hatchline - ' + ext.name + ' - Access Request');
-  var mailtoBuy = 'mailto:' + ext.developer.email + '?subject=' + encodeURIComponent('Hatchline - ' + ext.name + ' - Purchase');
 
   // ---------------------------------------------------------
   // Build each section as an HTML string, then assemble.
@@ -177,7 +176,7 @@
             '<div class="price-amount"><span class="big">\u20B9' + ext.pricing.inr + '</span><span class="alt">\u2248 AED ' + ext.pricing.aed.toFixed(2) + '</span></div>' +
             '<span class="price-model">' + escapeHtml(ext.pricing.model) + '</span>' +
             '<ul class="price-list">' + pricingIncludes + '</ul>' +
-            '<a class="btn btn-primary" href="' + mailtoBuy + '">Buy now</a>' +
+            '<button type="button" class="btn btn-primary" id="hlDownloadBtn" style="width:100%;justify-content:center;">Download now</button>' +
             '<p class="price-note">' + escapeHtml(ext.pricing.note) + '</p>' +
           '</div>' +
         '</div>' +
@@ -208,6 +207,19 @@
         '</div>' +
       '</div>' +
     '</section>';
+
+  // ---- wire the pricing "Download now" button to the lead-capture gate ----
+  var downloadBtn = document.getElementById('hlDownloadBtn');
+  if (downloadBtn) {
+    downloadBtn.addEventListener('click', function(){
+      if (typeof window.hatchlineOpenDownload === 'function') {
+        window.hatchlineOpenDownload(ext);
+      } else {
+        console.error('lead-capture.js did not load - falling back to email.');
+        window.location.href = mailtoAccess;
+      }
+    });
+  }
 
   // ---- FAQ accordion ----
   document.querySelectorAll('.faq-item').forEach(function(item){

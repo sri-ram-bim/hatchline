@@ -3,16 +3,112 @@
 This is a real, deployable static website (no build step, no server
 required). It currently lists one extension — **Bulk Export**.
 
+## The easy way to make changes — no coding
+
+Open **`editor.html`** in your browser (works locally by double-clicking
+the file, or on your live site at `yoursite.com/editor.html`).
+
+- **To edit Bulk Export** (change its price, description, features,
+  FAQ, anything): pick it from the "Load existing extension" dropdown
+  at the top, click **Load into form**, change whatever you want in
+  the boxes, then click **Generate Code** at the bottom.
+- **To add a brand-new extension**: leave the dropdown on "Create new"
+  and fill in the form from scratch, then **Generate Code**.
+
+Either way, you end up with a block of text in the black box at the
+bottom. Click **Copy to clipboard**, then follow the on-screen
+instructions (also repeated below) for where to paste it in
+`extensions-data.js` on GitHub. Commit the change, and the live site
+updates automatically within a minute or two — no separate deploy step.
+
+**This one page (`editor.html`) is the only thing you need to open for
+routine updates.** It is not linked from the public site's navigation
+on purpose — it's a tool for you, not visitors — but it's not
+password-protected, so don't put anything truly secret in mind when
+using it (see "Things to know" at the bottom).
+
+### Even simpler: changing just the price
+
+If all you want to do is change a price, you don't even need the
+editor. On GitHub, open `assets/js/extensions-data.js`, click the
+pencil (✎) icon to edit, find:
+```js
+pricing: {
+  model: "One-time purchase",
+  inr: 70,
+  aed: 2.69,
+```
+Change the two numbers, commit. That's the entire process for a price
+change.
+
+---
+
+## The "Download" button — how it actually works
+
+The pricing section's button no longer sends an email. It now:
+1. Opens a form requiring **name, email, company, and country** (all
+   mandatory — the form won't submit without every field filled).
+2. Sends those details somewhere you can see them (see below).
+3. Only then downloads the real file from `downloads/bulk-export.zip`.
+
+### Where the lead details go — you need to do this one step
+
+This is a static site with no server, so "submit a form" needs
+somewhere external to actually land. Recommended: **Formspree** (free
+tier is plenty to start):
+
+1. Go to **formspree.io** → sign up free → **New Form**.
+2. Copy the endpoint URL it gives you — looks like
+   `https://formspree.io/f/abcd1234`.
+3. Open `assets/js/lead-capture.js`, find this line near the top:
+   ```js
+   var FORMSPREE_ENDPOINT = "PASTE_YOUR_FORMSPREE_ENDPOINT_HERE";
+   ```
+4. Replace the placeholder text with your real endpoint, save, commit.
+
+That's it — every submission now lands in your Formspree dashboard, and
+Formspree emails you a copy of each one by default too.
+
+**Until you do that step**, the download button still works — it
+automatically falls back to opening the visitor's email app with their
+details pre-filled, addressed to you. That fallback is better than
+nothing but unreliable (some visitors, especially on phones or work
+computers, don't have an email app configured, so you'd never see those
+submissions). Setting up Formspree properly takes about two minutes and
+fixes that.
+
+### Uploading the actual file people download
+
+The zip file lives at `downloads/bulk-export.zip` in this project —
+that's the real file people receive. To update it when you release a
+new version of the extension:
+1. Build the new zip.
+2. On GitHub, go to the `downloads` folder → upload the new file with
+   the **exact same name** (`bulk-export.zip`), which overwrites the
+   old one.
+3. Commit. The download button doesn't need any other changes — it
+   always points at that same file path.
+
+If you add a new extension via the editor, give it its own file (e.g.
+`downloads/your-extension.zip`) and put that same path in the
+extension's "Download file path" field in `editor.html`.
+
+---
+
 ## File map
 
 ```
 hatchline/
 ├── index.html              ← homepage (extension grid)
 ├── extension.html          ← detail page template (reads ?slug=...)
+├── editor.html              ← ⭐ NO-CODE EDITOR — open this to make changes ⭐
+├── downloads/
+│   └── bulk-export.zip      ← the actual file customers download
 └── assets/
-    ├── css/style.css       ← all styling, shared by both pages
-    ├── js/extensions-data.js  ← ⭐ THE FILE YOU EDIT ⭐
+    ├── css/style.css       ← all styling, shared by all pages
+    ├── js/extensions-data.js  ← the file editor.html reads/writes
     ├── js/detail.js         ← renders extension.html from the data file
+    ├── js/lead-capture.js   ← the download-gate form + Formspree config
     └── img/                 ← icons/images
 ```
 
