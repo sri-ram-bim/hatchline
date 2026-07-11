@@ -95,20 +95,38 @@ extension's "Download file path" field in `editor.html`.
 
 ---
 
+## Contact page
+
+`contact.html` is a real page (not a mailto link) with:
+- Your email and role shown directly
+- A form (name, email, message type, message) that submits to the
+  same Formspree endpoint as the download form, tagged with a
+  different subject line so you can tell them apart in your inbox —
+  "Hatchline Contact - Complaint - ..." vs "Hatchline download - ...".
+
+Both the download form and this contact form read the endpoint from
+one shared file: `assets/js/config.js`. If you ever need to change
+your Formspree endpoint, that's the only place to update it.
+
+---
+
 ## File map
 
 ```
 hatchline/
 ├── index.html              ← homepage (extension grid)
 ├── extension.html          ← detail page template (reads ?slug=...)
+├── contact.html             ← contact page + feedback/complaint form
 ├── editor.html              ← ⭐ NO-CODE EDITOR — open this to make changes ⭐
 ├── downloads/
 │   └── bulk-export.zip      ← the actual file customers download
 └── assets/
     ├── css/style.css       ← all styling, shared by all pages
+    ├── js/config.js         ← Formspree endpoint (shared by download + contact forms)
     ├── js/extensions-data.js  ← the file editor.html reads/writes
     ├── js/detail.js         ← renders extension.html from the data file
-    ├── js/lead-capture.js   ← the download-gate form + Formspree config
+    ├── js/lead-capture.js   ← the download-gate form
+    ├── js/contact.js         ← the contact page's form handler
     └── img/                 ← icons/images
 ```
 

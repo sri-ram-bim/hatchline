@@ -33,8 +33,7 @@
   document.getElementById('pageTitle').textContent = ext.name + ' — Hatchline';
   document.getElementById('pageDesc').setAttribute('content', ext.shortDescription);
 
-  navCta.innerHTML = '<a class="btn btn-primary btn-sm" href="mailto:' + ext.developer.email +
-    '?subject=' + encodeURIComponent('Hatchline - ' + ext.name + ' - Access Request') + '">Request access</a>';
+  navCta.innerHTML = '<a class="btn btn-primary btn-sm" href="#pricing">Download</a>';
 
   var mailtoAccess = 'mailto:' + ext.developer.email + '?subject=' + encodeURIComponent('Hatchline - ' + ext.name + ' - Access Request');
 
@@ -108,8 +107,8 @@
             '<h1>' + escapeHtml(ext.tagline) + '</h1>' +
             '<p class="lede">' + escapeHtml(ext.longIntro) + '</p>' +
             '<div class="hero-ctas">' +
-              '<a class="btn btn-primary" href="' + mailtoAccess + '">Request access</a>' +
-              '<a class="btn btn-ghost" href="#pricing">See pricing \u2193</a>' +
+              '<a class="btn btn-primary" href="#pricing">Download \u2193</a>' +
+              '<a class="btn btn-ghost" href="#workflow">See how it works \u2193</a>' +
             '</div>' +
           '</div>' +
           '<div class="queue-panel reveal" aria-hidden="true">' +
@@ -156,24 +155,26 @@
     '</section>' +
 
     // ---- WORKFLOW ----
-    '<section class="grid-bg">' +
+    '<section id="workflow" class="grid-bg">' +
       '<div class="wrap">' +
         '<div class="section-head reveal"><span class="eyebrow">How it works</span><h2>Three tabs, one export</h2></div>' +
         '<div class="workflow reveal">' + workflowCards + '</div>' +
       '</div>' +
     '</section>' +
 
-    // ---- PRICING ----
+    // ---- DOWNLOAD ----
     '<section id="pricing">' +
       '<div class="wrap">' +
         '<div class="section-head reveal">' +
-          '<span class="eyebrow">Licensing</span>' +
-          '<h2>Pricing</h2>' +
+          '<span class="eyebrow">Get it</span>' +
+          '<h2>Download</h2>' +
         '</div>' +
         '<div class="pricing reveal">' +
           '<div class="price-card">' +
-            '<span class="price-tag">' + escapeHtml(ext.name) + ' License</span>' +
-            '<div class="price-amount"><span class="big">\u20B9' + ext.pricing.inr + '</span><span class="alt">\u2248 AED ' + ext.pricing.aed.toFixed(2) + '</span></div>' +
+            '<span class="price-tag">' + escapeHtml(ext.name) + '</span>' +
+            (ext.pricing.free
+              ? '<div class="price-amount"><span class="big">Free</span></div>'
+              : '<div class="price-amount"><span class="big">\u20B9' + ext.pricing.inr + '</span><span class="alt">\u2248 AED ' + ext.pricing.aed.toFixed(2) + '</span></div>') +
             '<span class="price-model">' + escapeHtml(ext.pricing.model) + '</span>' +
             '<ul class="price-list">' + pricingIncludes + '</ul>' +
             '<button type="button" class="btn btn-primary" id="hlDownloadBtn" style="width:100%;justify-content:center;">Download now</button>' +
@@ -202,8 +203,8 @@
     '<section>' +
       '<div class="wrap">' +
         '<div class="cta-strip reveal">' +
-          '<div><h2>Stop exporting one format at a time.</h2><p>Reach out and get a walkthrough plus your license.</p></div>' +
-          '<a class="btn btn-primary" href="' + mailtoAccess + '">Request access</a>' +
+          '<div><h2>Stop exporting one format at a time.</h2><p>Free to download — fill in your details and get the file in seconds.</p></div>' +
+          '<a class="btn btn-primary" href="#pricing">Download \u2193</a>' +
         '</div>' +
       '</div>' +
     '</section>';

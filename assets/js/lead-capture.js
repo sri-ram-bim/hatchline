@@ -28,10 +28,8 @@
       that problem, which is why it's the recommended option.
    ============================================================ */
 
-var FORMSPREE_ENDPOINT = "https://formspree.io/f/mgojgjyw";
-// e.g. var FORMSPREE_ENDPOINT = "https://formspree.io/f/abcdwxyz";
-
-var HATCHLINE_LEAD_NOTIFY_EMAIL = "sreeram14092002@gmail.com";
+/* FORMSPREE_ENDPOINT and HATCHLINE_LEAD_NOTIFY_EMAIL now live in
+   assets/js/config.js, loaded before this file. */
 
 var HATCHLINE_COUNTRIES = [
   "India", "United Arab Emirates", "Saudi Arabia", "Qatar", "Kuwait", "Oman", "Bahrain",

@@ -135,6 +135,7 @@
 
     <div class="panel">
       <h2>Pricing</h2>
+      <div class="field"><label style="display:flex;align-items:center;gap:8px;font-family:var(--body);text-transform:none;letter-spacing:0;font-size:14.5px;color:var(--graphite);"><input type="checkbox" id="f_isFree" style="width:auto;"> This extension is free (hides the price, shows "Free" instead)</label></div>
       <div class="row3">
         <div class="field"><label class="req">Price model</label><input id="f_priceModel" value="One-time purchase"></div>
         <div class="field"><label class="req">Price (INR)</label><input id="f_priceInr" type="number" step="1" value="0"></div>
@@ -287,6 +288,7 @@
     document.getElementById('f_compat').value = ext.compatibility || '';
 
     document.getElementById('f_priceModel').value = ext.pricing.model || '';
+    document.getElementById('f_isFree').checked = !!ext.pricing.free;
     document.getElementById('f_priceInr').value = ext.pricing.inr || 0;
     document.getElementById('f_priceAed').value = ext.pricing.aed || 0;
     document.getElementById('f_priceNote').value = ext.pricing.note || '';
@@ -374,6 +376,7 @@
     lines.push('');
     lines.push('    pricing: {');
     lines.push('      model: ' + jsStr(document.getElementById('f_priceModel').value) + ',');
+    lines.push('      free: ' + (document.getElementById('f_isFree').checked ? 'true' : 'false') + ',');
     lines.push('      inr: ' + (parseFloat(document.getElementById('f_priceInr').value) || 0) + ',');
     lines.push('      aed: ' + (parseFloat(document.getElementById('f_priceAed').value) || 0) + ',');
     lines.push('      note: ' + jsStr(document.getElementById('f_priceNote').value) + ',');

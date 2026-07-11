@@ -58,10 +58,11 @@ const HATCHLINE_EXTENSIONS = [
     ],
 
     pricing: {
-      model: "Free",
+      model: "Free download",
+      free: true,
       inr: 0,
       aed: 0,
-      note: "Launch pricing — subject to change. Downloads are provided after you share your details below; licensing/invoicing is handled directly with you afterward.",
+      note: "Free during early access. Details are collected only to follow up about updates and support — not for payment.",
       downloadUrl: "downloads/bulk-export.zip",
       includes: [
         "Full extension, one Revit login",

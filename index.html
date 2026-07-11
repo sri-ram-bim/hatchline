@@ -35,7 +35,7 @@
       <a href="index.html#about">About</a>
     </nav>
     <div class="nav-cta">
-      <a class="btn btn-primary btn-sm" href="mailto:sreeram14092002@gmail.com?subject=Hatchline%20-%20Get%20in%20touch">Get in touch</a>
+      <a class="btn btn-primary btn-sm" href="contact.html">Contact</a>
     </div>
   </div>
 </header>
@@ -54,7 +54,7 @@
       <div class="stat-strip">
         <div><div class="num">1</div><div class="lbl">Extension live</div></div>
         <div><div class="num">01</div><div class="lbl">Category — Export</div></div>
-        <div><div class="num">₹</div><div class="lbl">INR &amp; AED pricing</div></div>
+        <div><div class="num">Free</div><div class="lbl">No cost to try</div></div>
       </div>
     </div>
   </section>
@@ -87,7 +87,7 @@
       </div>
       <div class="reveal">
         <span class="eyebrow">How listings work</span>
-        <p style="font-size:14.5px;color:#4B5157;max-width:56ch;">Each extension is sold and supported independently by its developer. Pricing is shown in INR with an AED estimate for reference — actual currency handling happens directly with the developer when you reach out, since there's no automated checkout yet. More extensions and categories are added as they're built.</p>
+        <p style="font-size:14.5px;color:#4B5157;max-width:56ch;">Each extension is free to download — just a quick details form so the developer can follow up with updates and support. Have feedback, a bug report, or an idea for a new extension? Visit the <a href="contact.html" style="color:var(--blueprint);">Contact page</a>. More extensions and categories are added as they're built.</p>
       </div>
     </div>
   </section>
@@ -100,7 +100,7 @@
           <h2>Building a Revit extension of your own?</h2>
           <p>Hatchline is open to listing independent, working pyRevit extensions from other developers too.</p>
         </div>
-        <a class="btn btn-primary" href="mailto:sreeram14092002@gmail.com?subject=Hatchline%20-%20List%20my%20extension">Get in touch</a>
+        <a class="btn btn-primary" href="contact.html">Contact</a>
       </div>
     </div>
   </section>
@@ -116,8 +116,11 @@
     <div class="foot-links">
       <a href="index.html#extensions">Extensions</a>
       <a href="index.html#about">About</a>
-      <a href="mailto:sreeram14092002@gmail.com">Contact</a>
+      <a href="contact.html">Contact</a>
     </div>
+  </div>
+  <div class="wrap">
+    <p class="foot-copy">© 2026 Hatchline. All rights reserved.</p>
   </div>
 </footer>
 
@@ -130,7 +133,7 @@
     card.className = 'ext-card';
     card.href = 'extension.html?slug=' + encodeURIComponent(ext.slug);
 
-    var priceLabel = '\u20B9' + ext.pricing.inr + ' \u00b7 AED ' + ext.pricing.aed.toFixed(2);
+    var priceLabel = ext.pricing.free ? 'Free' : ('\u20B9' + ext.pricing.inr + ' \u00b7 AED ' + ext.pricing.aed.toFixed(2));
 
     card.innerHTML =
       '<div class="ext-icon">' + ext.initials + '</div>' +
@@ -145,7 +148,7 @@
   // pad the grid with a visual "more coming" placeholder
   var placeholder = document.createElement('div');
   placeholder.className = 'empty-card';
-  placeholder.innerHTML = '<strong>More extensions in progress</strong>Have an idea for a Revit workflow that needs automating? <a href="mailto:sreeram14092002@gmail.com?subject=Hatchline%20-%20Extension%20idea" style="color:var(--orange-dk);">Suggest one</a>.';
+  placeholder.innerHTML = '<strong>More extensions in progress</strong>Have an idea for a Revit workflow that needs automating? <a href="contact.html" style="color:var(--orange-dk);">Suggest one</a>.';
   grid.appendChild(placeholder);
 
   // ---- scroll reveal ----
