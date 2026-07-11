@@ -203,8 +203,8 @@
     '<section>' +
       '<div class="wrap">' +
         '<div class="cta-strip reveal">' +
-          '<div><h2>Stop exporting one format at a time.</h2><p>Free to download — fill in your details and get the file in seconds.</p></div>' +
-          '<a class="btn btn-primary" href="#pricing">Download \u2193</a>' +
+          '<div><h2>' + escapeHtml(ext.tagline) + '</h2><p>Questions before you get started? Reach out and get a straight answer.</p></div>' +
+          '<a class="btn btn-primary" href="contact.html">Contact</a>' +
         '</div>' +
       '</div>' +
     '</section>';

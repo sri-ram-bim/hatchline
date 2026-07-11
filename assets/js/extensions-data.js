@@ -79,6 +79,80 @@ const HATCHLINE_EXTENSIONS = [
       { q: "Can my whole team use the same export settings?", a: "Yes — save your configuration as an XML profile and export it to a shared drive or send it directly. Teammates import it and get the identical setup, including naming pattern and DWG export setup choice." },
       { q: "Do I need anything besides Revit installed?", a: "Yes — Bulk Export runs as a pyRevit extension, so pyRevit needs to be installed first. Mention that when you request access and we'll walk through setup." }
     ]
+  },
+
+  {
+    // URL: extension.html?slug=rp-tools
+    slug: "rp-tools",
+    name: "RP Tools",
+    tagline: "Nine tools. One tab. No more digging through menus.",
+    category: "Project Management Toolset",
+    initials: "RP",
+    heroEyebrowTag: "PyRevit Extension",
+    heroEyebrowLabel: "Project Management Automation",
+    shortDescription: "A full project-management toolset for Revit — batch export, sheet automation, workset creation, model cleanup, grid tools and element lookup, all in one pyRevit tab.",
+    longIntro: "RP Tools packs nine everyday project-management jobs — batch export, sheet creation and renaming, viewport alignment, workset setup, model cleanup, grid flipping and element lookup — into a single \"ProjectManagement\" pyRevit tab, so routine cleanup and setup work stops eating whole afternoons.",
+
+    badges: ["PDF", "DWG", "CSV", "TXT"],
+
+    developer: {
+      name: "Ramesh Prakash",
+      role: "pyRevit Developer",
+      email: "rameshe280@gmail.com",
+      quote: "RP Tools grew out of the same handful of setup and cleanup jobs coming up on every project — sheets, worksets, grids, IDs — so I built one tab that handles all of them instead of hunting through five different add-ins."
+    },
+
+    compatibility: "Revit 2021–2025 (a few features such as native Purge Unused need Revit 2022+; degrades gracefully on older versions with a message instead of crashing). Runs as a pyRevit extension — pyRevit 4.8+ must already be installed.",
+
+    comparison: [
+      { capability: "Sheet creation", manual: "One sheet at a time, manual titleblock + placement", tool: "Bulk-create sheets from selected views with auto-incrementing numbers" },
+      { capability: "Sheet renaming", manual: "Manual rename, one sheet at a time", tool: "Find & replace, prefix/suffix, or CSV-mapped rename across many sheets" },
+      { capability: "Viewport alignment", manual: "Dragged and eyeballed per sheet", tool: "Align 2+ selected viewports to the first one in one click" },
+      { capability: "Worksets", manual: "Typed in one by one via the Worksets dialog", tool: "Created in bulk from a plain .txt list" },
+      { capability: "Model cleanup", manual: "Several separate manual passes", tool: "Checklist-driven cleanup covering CAD imports, view templates, rooms, line patterns, group types and Purge Unused" },
+      { capability: "Element lookup", manual: "Manual search through the model tree", tool: "Select/zoom by Element ID, host or linked model, with a printed ID/category table" }
+    ],
+
+    features: [
+      { tag: "01 — EXPORT", title: "Batch Export", body: "Select sheets, choose PDF and/or DWG, pick a naming pattern and combined-or-per-sheet output, and export the whole set with a progress log." },
+      { tag: "02 — SHEETS", title: "Sheets From Views", body: "Select views, pick a titleblock and a starting sheet number, and get one sheet per view created automatically, auto-incrementing as it goes." },
+      { tag: "03 — SHEETS", title: "Align Viewports", body: "Select two or more viewports on a sheet and align them — left, right, top, bottom, or centered — to the first one you picked." },
+      { tag: "04 — SHEETS", title: "Copy/Move Legends & Viewports", body: "Push a legend or viewport to a list of target sheets at the same position, either copying or moving it in one pass." },
+      { tag: "05 — SHEETS", title: "Bulk Rename Sheets", body: "Find & replace, add a prefix/suffix, or import a CSV mapping of old numbers to new numbers and names." },
+      { tag: "06 — SELECTION", title: "Select By ID", body: "Enter one or more Element IDs from the host or a linked model and the tool selects, highlights, zooms, and lists Category/Name for each." },
+      { tag: "07 — WORKSETS", title: "Model Cleanup", body: "A checklist of cleanup actions — CAD imports, unused view templates, empty rooms, unused line patterns, empty group types, Purge Unused — run together or individually." },
+      { tag: "08 — WORKSETS", title: "Bulk Create Worksets", body: "Point at a plain .txt list of workset names and the tool creates every one that doesn't already exist, reporting skips and failures." },
+      { tag: "09 — GRIDS", title: "Flip Grids", body: "Flip direction or toggle bubble visibility on selected grids, or on every grid in the active view, in one run." }
+    ],
+
+    workflow: [
+      { num: "01 — PICK", title: "Pick the tool", body: "Nine tools live under one \"ProjectManagement\" tab across five panels — Export, Sheets, Selection, Worksets and Grids." },
+      { num: "02 — CONFIGURE", title: "Set it up once", body: "Each tool opens its own small dialog — select elements, set options, point at a CSV or TXT file if the tool needs one." },
+      { num: "03 — RUN", title: "Run and review", body: "Tools that touch many elements report back what changed, what was skipped, and what failed, instead of failing silently." }
+    ],
+
+    pricing: {
+      model: "One-time purchase",
+      free: false,
+      inr: 0,
+      aed: 0,
+      note: "Contact for pricing and access — details are collected to arrange delivery and support, not for automated checkout.",
+      downloadUrl: "",
+      includes: [
+        "Full extension, all 9 tools",
+        "CSV/TXT-driven bulk sheet and workset tools",
+        "Model cleanup checklist",
+        "Email support"
+      ]
+    },
+
+    faq: [
+      { q: "Which Revit versions are supported?", a: "Revit 2021 through 2025 are supported. A few features, like native Purge Unused, need Revit 2022 or newer — on older versions the tool tells you to purge manually instead of failing." },
+      { q: "Do I need pyRevit installed?", a: "Yes — RP Tools runs as a pyRevit extension, so pyRevit 4.8 or newer needs to be installed first." },
+      { q: "Can a regular view be placed on more than one sheet?", a: "No — that's a Revit rule, not a limitation of this tool. Only Legend and Schedule views can repeat across multiple sheets; a plan, section, elevation or 3D view can only be placed once anywhere in the model." },
+      { q: "Is Model Cleanup safe to run on a live project?", a: "Back up the model first. Most cleanup actions aren't easily undoable once the file is saved or synced, so it's built as an explicit checklist you select from rather than a single always-everything button." },
+      { q: "How do I get access?", a: "Reach out through the contact page with your Revit version and what you're using it for, and you'll get pricing and delivery details directly." }
+    ]
   }
 
   // ---- Add your next extension below as a new object ----
