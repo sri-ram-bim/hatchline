@@ -58,9 +58,9 @@ const HATCHLINE_EXTENSIONS = [
     ],
 
     pricing: {
-      model: "One-time purchase",
-      inr: 70,
-      aed: 2.69,
+      model: "Free",
+      inr: 0,
+      aed: 0,
       note: "Launch pricing — subject to change. Downloads are provided after you share your details below; licensing/invoicing is handled directly with you afterward.",
       downloadUrl: "downloads/bulk-export.zip",
       includes: [
