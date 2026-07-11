@@ -52,9 +52,9 @@
       <h1>Revit extensions, built by people who <em>actually run them.</em></h1>
       <p class="lede">Hatchline lists pyRevit extensions built inside real BIM/MEP coordination work — not lab demos. Each one solves a specific, repetitive problem, priced for individuals and firms rather than enterprise procurement.</p>
       <div class="stat-strip">
-        <div><div class="num">1</div><div class="lbl">Extension live</div></div>
-        <div><div class="num">01</div><div class="lbl">Category — Export</div></div>
-        <div><div class="num">Free</div><div class="lbl">No cost to try</div></div>
+        <div><div class="num" id="statExtCount">1</div><div class="lbl">Extension live</div></div>
+        <div><div class="num" id="statCatCount">01</div><div class="lbl" id="statCatLabel">Category — Export</div></div>
+        <div><div class="num" id="statFreeLabel">Free</div><div class="lbl" id="statFreeSub">No cost to try</div></div>
       </div>
     </div>
   </section>
@@ -69,7 +69,7 @@
       </div>
 
       <div class="category-label reveal">
-        <span class="eyebrow" style="margin:0;">Category — Batch Export &amp; Documentation</span>
+        <span class="eyebrow" style="margin:0;" id="catalogCategoryLabel">Category — Batch Export &amp; Documentation</span>
         <span class="line"></span>
       </div>
 
@@ -144,6 +144,36 @@
 
     grid.appendChild(card);
   });
+
+  // ---- keep the hero stat strip and catalog label in sync with the data ----
+  (function(){
+    var extCount = HATCHLINE_EXTENSIONS.length;
+    var categories = HATCHLINE_EXTENSIONS.map(function(e){ return e.category; })
+      .filter(function(c, i, arr){ return arr.indexOf(c) === i; });
+    var freeCount = HATCHLINE_EXTENSIONS.filter(function(e){ return e.pricing.free; }).length;
+
+    document.getElementById('statExtCount').textContent = extCount;
+    document.getElementById('statExtCount').nextElementSibling.textContent = extCount === 1 ? 'Extension live' : 'Extensions live';
+
+    document.getElementById('statCatCount').textContent = String(categories.length).padStart(2, '0');
+    document.getElementById('statCatLabel').textContent = categories.length === 1 ? ('Category \u2014 ' + categories[0]) : (categories.length + ' categories');
+
+    var freeLabelEl = document.getElementById('statFreeLabel');
+    var freeSubEl = document.getElementById('statFreeSub');
+    if (freeCount === extCount) {
+      freeLabelEl.textContent = 'Free';
+      freeSubEl.textContent = 'No cost to try';
+    } else if (freeCount > 0) {
+      freeLabelEl.textContent = freeCount + '/' + extCount;
+      freeSubEl.textContent = 'Free to try';
+    } else {
+      freeLabelEl.textContent = 'Paid';
+      freeSubEl.textContent = 'One-time purchase';
+    }
+
+    document.getElementById('catalogCategoryLabel').textContent =
+      categories.length === 1 ? ('Category \u2014 ' + categories[0]) : ('Categories \u2014 ' + categories.join(' \u00b7 '));
+  })();
 
   // pad the grid with a visual "more coming" placeholder
   var placeholder = document.createElement('div');

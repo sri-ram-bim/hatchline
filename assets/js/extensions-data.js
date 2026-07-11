@@ -84,10 +84,10 @@ const HATCHLINE_EXTENSIONS = [
   {
     // URL: extension.html?slug=rp-tools
     slug: "rp-tools",
-    name: "RP Tools",
+    name: "Quick Sheets",
     tagline: "Nine tools. One tab. No more digging through menus.",
     category: "Project Management Toolset",
-    initials: "RP",
+    initials: "QS",
     heroEyebrowTag: "PyRevit Extension",
     heroEyebrowLabel: "Project Management Automation",
     shortDescription: "A full project-management toolset for Revit — batch export, sheet automation, workset creation, model cleanup, grid tools and element lookup, all in one pyRevit tab.",
@@ -132,12 +132,12 @@ const HATCHLINE_EXTENSIONS = [
     ],
 
     pricing: {
-      model: "One-time purchase",
-      free: false,
+      model: "Free download",
+      free: true,
       inr: 0,
       aed: 0,
-      note: "Contact for pricing and access — details are collected to arrange delivery and support, not for automated checkout.",
-      downloadUrl: "",
+      note: "Free during early access. Details are collected only to follow up about updates and support — not for payment.",
+      downloadUrl: "downloads/quick-sheets.zip",
       includes: [
         "Full extension, all 9 tools",
         "CSV/TXT-driven bulk sheet and workset tools",
@@ -151,7 +151,7 @@ const HATCHLINE_EXTENSIONS = [
       { q: "Do I need pyRevit installed?", a: "Yes — RP Tools runs as a pyRevit extension, so pyRevit 4.8 or newer needs to be installed first." },
       { q: "Can a regular view be placed on more than one sheet?", a: "No — that's a Revit rule, not a limitation of this tool. Only Legend and Schedule views can repeat across multiple sheets; a plan, section, elevation or 3D view can only be placed once anywhere in the model." },
       { q: "Is Model Cleanup safe to run on a live project?", a: "Back up the model first. Most cleanup actions aren't easily undoable once the file is saved or synced, so it's built as an explicit checklist you select from rather than a single always-everything button." },
-      { q: "How do I get access?", a: "Reach out through the contact page with your Revit version and what you're using it for, and you'll get pricing and delivery details directly." }
+      { q: "How do I get access?", a: "It's a free download — fill in your details on the pricing section and the file downloads directly. No purchase or approval step needed." }
     ]
   }
 
