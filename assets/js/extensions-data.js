@@ -25,6 +25,31 @@ const HATCHLINE_EXTENSIONS = [
 
     badges: ["PDF", "DWG", "DWF", "IFC", "IMG"],
 
+    version: "1.2",
+    changelog: [
+      {
+        version: "1.2",
+        changes: [
+          "Added Scheduled Export — run a full batch export automatically via Windows Task Scheduler, no one has to open Revit or click through the dialog",
+          "Fixed a cross-version bug where Zoom % export could silently fail on some Revit versions (Autodesk uses two different, similarly-named enums for the same zoom setting depending on version — both are now tried automatically)",
+          "Fixed a paper placement bug where 'Offset from corner' threw an error instead of applying (wrong enum name)",
+          "Fixed a profile save crash ('unknown encoding: unicode') on some Revit/IronPython versions",
+          "Fixed a crash on Revit 2027 specifically, caused by a .NET interface its newer runtime doesn't resolve the same way",
+          "Added a 'Clean .pcp files after export' option for DWG",
+          "Added a search box to the filename builder's parameter list"
+        ]
+      },
+      {
+        version: "1.1",
+        changes: [
+          "Initial public release: batch PDF, DWG, DWF, IFC and Image export in one pass",
+          "Parameter-driven filename builder",
+          "Real DWG export setups pulled from the model",
+          "Shareable XML profiles"
+        ]
+      }
+    ],
+
     developer: {
       name: "Sri Ram",
       role: "BIM/MEP Coordination · pyRevit Developer",
@@ -94,6 +119,8 @@ const HATCHLINE_EXTENSIONS = [
     longIntro: "RP Tools packs nine everyday project-management jobs — batch export, sheet creation and renaming, viewport alignment, workset setup, model cleanup, grid flipping and element lookup — into a single \"ProjectManagement\" pyRevit tab, so routine cleanup and setup work stops eating whole afternoons.",
 
     badges: ["PDF", "DWG", "CSV", "TXT"],
+
+    version: "1.0",
 
     developer: {
       name: "Ramesh Prakash",

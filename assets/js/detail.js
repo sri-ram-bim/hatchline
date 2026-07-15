@@ -67,6 +67,20 @@
 
   var pricingIncludes = ext.pricing.includes.map(function(i){ return '<li>' + escapeHtml(i) + '</li>'; }).join('');
 
+  var changelogHtml = '';
+  if (ext.changelog && ext.changelog.length) {
+    changelogHtml = ext.changelog.map(function(entry, i){
+      var items = entry.changes.map(function(c){ return '<li>' + escapeHtml(c) + '</li>'; }).join('');
+      return '<div class="changelog-entry">' +
+        '<div class="changelog-version">' +
+          '<span class="version-badge">v' + escapeHtml(entry.version) + '</span>' +
+          (i === 0 ? '<span class="changelog-latest">Latest</span>' : '') +
+        '</div>' +
+        '<ul class="changelog-list">' + items + '</ul>' +
+      '</div>';
+    }).join('');
+  }
+
   var faqItems = ext.faq.map(function(item, i){
     return '<div class="faq-item' + (i === 0 ? ' open' : '') + '">' +
       '<button class="faq-q" aria-expanded="' + (i === 0 ? 'true' : 'false') + '">' +
@@ -103,6 +117,7 @@
             '<div class="titleblock">' +
               '<span class="tagx">' + escapeHtml(ext.heroEyebrowTag) + '</span>' +
               '<span>' + escapeHtml(ext.heroEyebrowLabel) + '</span>' +
+              (ext.version ? '<span class="version-badge">v' + escapeHtml(ext.version) + '</span>' : '') +
             '</div>' +
             '<h1>' + escapeHtml(ext.tagline) + '</h1>' +
             '<p class="lede">' + escapeHtml(ext.longIntro) + '</p>' +
@@ -161,6 +176,19 @@
         '<div class="workflow reveal">' + workflowCards + '</div>' +
       '</div>' +
     '</section>' +
+
+    // ---- CHANGELOG (only if the extension has version history) ----
+    (changelogHtml ?
+      '<section id="changelog">' +
+        '<div class="wrap">' +
+          '<div class="section-head reveal">' +
+            '<span class="eyebrow">Version History</span>' +
+            '<h2>What\'s changed</h2>' +
+          '</div>' +
+          '<div class="changelog-wrap reveal">' + changelogHtml + '</div>' +
+        '</div>' +
+      '</section>'
+      : '') +
 
     // ---- DOWNLOAD ----
     '<section id="pricing">' +

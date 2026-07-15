@@ -118,6 +118,7 @@
       <div class="field"><label class="req">Short description (shown on homepage card)</label><textarea id="f_short" placeholder="One or two sentences."></textarea></div>
       <div class="field"><label class="req">Long intro (shown at top of detail page)</label><textarea id="f_long" placeholder="A slightly longer version of the short description."></textarea></div>
       <div class="field"><label>Format badges (comma separated)</label><input id="f_badges" placeholder="e.g. PDF, DWG, CSV"></div>
+      <div class="field"><label>Version (e.g. 1.0, 1.2)</label><input id="f_version" placeholder="e.g. 1.2"></div>
     </div>
 
     <div class="panel">
@@ -151,6 +152,13 @@
       <h2>Comparison table (Manual vs. this extension)</h2>
       <div id="comparisonList"></div>
       <button type="button" class="add-btn" id="addComparison">+ Add comparison row</button>
+    </div>
+
+    <div class="panel">
+      <h2>Changelog / version history</h2>
+      <p class="hint">Optional. Leave empty for no version history section on the page. Newest version goes first - it gets a "Latest" tag automatically.</p>
+      <div id="changelogList"></div>
+      <button type="button" class="add-btn" id="addChangelog">+ Add version entry</button>
     </div>
 
     <div class="panel">
@@ -238,6 +246,10 @@
   var comparisonRepeater = makeRepeater('comparisonList', 'addComparison', [
     {key:'capability', label:'Capability'}, {key:'manual', label:'Manual way'}, {key:'tool', label:'With this extension'}
   ], 3);
+  var changelogRepeater = makeRepeater('changelogList', 'addChangelog', [
+    {key:'version', label:'Version number (e.g. 1.2)'},
+    {key:'changes', label:'Changes - one per line', type:'textarea'}
+  ], 1);
   var featuresRepeater = makeRepeater('featuresList', 'addFeature', [
     {key:'tag', label:'Tag (e.g. 01 — NAMING)'}, {key:'title', label:'Feature title'}, {key:'body', label:'Feature description', type:'textarea'}
   ], 3);
@@ -280,6 +292,7 @@
     document.getElementById('f_short').value = ext.shortDescription || '';
     document.getElementById('f_long').value = ext.longIntro || '';
     document.getElementById('f_badges').value = (ext.badges || []).join(', ');
+    document.getElementById('f_version').value = ext.version || '';
 
     document.getElementById('f_devName').value = ext.developer.name || '';
     document.getElementById('f_devRole').value = ext.developer.role || '';
@@ -299,6 +312,11 @@
 
     comparisonRepeater.clear();
     (ext.comparison || []).forEach(function(row){ comparisonRepeater.addRow(row); });
+
+    changelogRepeater.clear();
+    (ext.changelog || []).forEach(function(entry){
+      changelogRepeater.addRow({ version: entry.version, changes: (entry.changes || []).join('\n') });
+    });
 
     featuresRepeater.clear();
     (ext.features || []).forEach(function(row){ featuresRepeater.addRow(row); });
@@ -329,6 +347,7 @@
     var badges = document.getElementById('f_badges').value.split(',').map(function(s){ return s.trim(); }).filter(Boolean);
     var includes = includesRepeater.getAll().map(function(r){ return r.text; }).filter(Boolean);
     var comparison = comparisonRepeater.getAll().filter(function(r){ return r.capability; });
+    var changelog = changelogRepeater.getAll().filter(function(r){ return r.version; });
     var features = featuresRepeater.getAll().filter(function(r){ return r.title; });
     var workflow = workflowRepeater.getAll().filter(function(r){ return r.title; });
     var faq = faqRepeater.getAll().filter(function(r){ return r.q; });
@@ -346,6 +365,20 @@
     lines.push('    longIntro: ' + jsStr(document.getElementById('f_long').value) + ',');
     lines.push('');
     lines.push('    badges: [' + badges.map(jsStr).join(', ') + '],');
+    if (document.getElementById('f_version').value.trim()) {
+      lines.push('    version: ' + jsStr(document.getElementById('f_version').value) + ',');
+    }
+    if (changelog.length) {
+      lines.push('    changelog: [');
+      changelog.forEach(function(entry, i){
+        var changeLines = entry.changes.split('\n').map(function(s){ return s.trim(); }).filter(Boolean);
+        lines.push('      {');
+        lines.push('        version: ' + jsStr(entry.version) + ',');
+        lines.push('        changes: [' + changeLines.map(jsStr).join(', ') + ']');
+        lines.push('      }' + (i < changelog.length-1 ? ',' : ''));
+      });
+      lines.push('    ],');
+    }
     lines.push('');
     lines.push('    developer: {');
     lines.push('      name: ' + jsStr(document.getElementById('f_devName').value) + ',');

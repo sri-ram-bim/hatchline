@@ -166,6 +166,20 @@ footer{ border-top:1px solid var(--hair); padding:44px 0 34px; }
 .reveal.in{ opacity:1; transform:none; }
 @media (prefers-reduced-motion:reduce){ .reveal{ opacity:1; transform:none; transition:none; } }
 
+/* ---------- version badge + changelog ---------- */
+.version-badge{
+  font-family:var(--mono); font-size:11px; font-weight:600; color:var(--orange-dk);
+  background:rgba(237,137,54,.1); border:1px solid var(--orange); border-radius:2px;
+  padding:4px 9px; letter-spacing:.02em;
+}
+.changelog-wrap{ display:flex; flex-direction:column; gap:0; border:1px solid var(--hair); border-radius:5px; overflow:hidden; background:var(--paper); }
+.changelog-entry{ padding:22px 24px; border-bottom:1px solid var(--hair); }
+.changelog-entry:last-child{ border-bottom:none; }
+.changelog-version{ display:flex; align-items:center; gap:10px; margin-bottom:12px; }
+.changelog-latest{ font-family:var(--mono); font-size:10.5px; font-weight:600; color:var(--ok); text-transform:uppercase; letter-spacing:.05em; }
+.changelog-list{ margin:0; padding-left:20px; display:flex; flex-direction:column; gap:7px; }
+.changelog-list li{ font-size:14px; color:#4B5157; }
+
 /* ---------- extension cards (marketplace grid) ---------- */
 .category-label{ display:flex; align-items:center; gap:12px; margin-bottom:26px; }
 .category-label .line{ flex:1; height:1px; background:var(--hair); }
@@ -178,6 +192,7 @@ footer{ border-top:1px solid var(--hair); padding:44px 0 34px; }
 .ext-card:hover{ border-color:var(--orange); transform:translateY(-3px); box-shadow:0 16px 30px -20px rgba(22,40,63,.35); }
 .ext-icon{ width:52px; height:52px; border-radius:8px; background:var(--ink); display:flex; align-items:center; justify-content:center; font-family:var(--display); font-weight:700; color:var(--orange); font-size:20px; }
 .ext-card h3{ font-size:19px; }
+.card-version{ font-family:var(--mono); font-size:11px; font-weight:600; color:var(--hair-dk); vertical-align:middle; }
 .ext-card .ext-tagline{ font-size:13.5px; color:#4B5157; flex:1; }
 .ext-meta{ display:flex; align-items:center; justify-content:space-between; font-family:var(--mono); font-size:12px; color:var(--hair-dk); border-top:1px dashed var(--hair); padding-top:14px; }
 .ext-meta .price{ color:var(--orange-dk); font-weight:600; }

@@ -137,7 +137,7 @@
 
     card.innerHTML =
       '<div class="ext-icon">' + ext.initials + '</div>' +
-      '<h3>' + ext.name + '</h3>' +
+      '<h3>' + ext.name + (ext.version ? ' <span class="card-version">v' + ext.version + '</span>' : '') + '</h3>' +
       '<p class="ext-tagline">' + ext.shortDescription + '</p>' +
       '<div class="ext-badges">' + ext.badges.map(function(b){ return '<span class="ext-badge">' + b + '</span>'; }).join('') + '</div>' +
       '<div class="ext-meta"><span>' + ext.category + '</span><span class="price">' + priceLabel + '</span></div>';
