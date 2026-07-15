@@ -29,6 +29,7 @@ const HATCHLINE_EXTENSIONS = [
     changelog: [
       {
         version: "1.2",
+        downloadUrl: "downloads/bulk-export-v1.2.zip",
         changes: [
           "Added Scheduled Export — run a full batch export automatically via Windows Task Scheduler, no one has to open Revit or click through the dialog",
           "Fixed a cross-version bug where Zoom % export could silently fail on some Revit versions (Autodesk uses two different, similarly-named enums for the same zoom setting depending on version — both are now tried automatically)",
@@ -41,6 +42,7 @@ const HATCHLINE_EXTENSIONS = [
       },
       {
         version: "1.1",
+        downloadUrl: "downloads/bulk-export-v1.1.zip",
         changes: [
           "Initial public release: batch PDF, DWG, DWF, IFC and Image export in one pass",
           "Parameter-driven filename builder",
@@ -88,7 +90,7 @@ const HATCHLINE_EXTENSIONS = [
       inr: 0,
       aed: 0,
       note: "Free during early access. Details are collected only to follow up about updates and support — not for payment.",
-      downloadUrl: "downloads/bulk-export.zip",
+      downloadUrl: "downloads/bulk-export-v1.2.zip",
       includes: [
         "Full extension, one Revit login",
         "Filename builder + DWG export setups",

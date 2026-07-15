@@ -71,12 +71,18 @@
   if (ext.changelog && ext.changelog.length) {
     changelogHtml = ext.changelog.map(function(entry, i){
       var items = entry.changes.map(function(c){ return '<li>' + escapeHtml(c) + '</li>'; }).join('');
+      var downloadBtn = entry.downloadUrl
+        ? '<button type="button" class="btn btn-ghost btn-sm changelog-download" data-version="' +
+          escapeHtml(entry.version) + '" data-url="' + escapeHtml(entry.downloadUrl) + '">Download v' +
+          escapeHtml(entry.version) + '</button>'
+        : '';
       return '<div class="changelog-entry">' +
         '<div class="changelog-version">' +
           '<span class="version-badge">v' + escapeHtml(entry.version) + '</span>' +
           (i === 0 ? '<span class="changelog-latest">Latest</span>' : '') +
         '</div>' +
         '<ul class="changelog-list">' + items + '</ul>' +
+        (downloadBtn ? '<div class="changelog-download-row">' + downloadBtn + '</div>' : '') +
       '</div>';
     }).join('');
   }
@@ -249,6 +255,20 @@
       }
     });
   }
+
+  // ---- wire each changelog entry's "Download vX.X" button ----
+  document.querySelectorAll('.changelog-download').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var url = btn.getAttribute('data-url');
+      var version = btn.getAttribute('data-version');
+      if (typeof window.hatchlineOpenDownload === 'function') {
+        window.hatchlineOpenDownload(ext, url, version);
+      } else {
+        console.error('lead-capture.js did not load - falling back to email.');
+        window.location.href = mailtoAccess;
+      }
+    });
+  });
 
   // ---- FAQ accordion ----
   document.querySelectorAll('.faq-item').forEach(function(item){

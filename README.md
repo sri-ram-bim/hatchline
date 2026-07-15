@@ -77,21 +77,42 @@ computers, don't have an email app configured, so you'd never see those
 submissions). Setting up Formspree properly takes about two minutes and
 fixes that.
 
-### Uploading the actual file people download
+### Uploading the actual file people download — and keeping old versions available
 
-The zip file lives at `downloads/bulk-export.zip` in this project —
-that's the real file people receive. To update it when you release a
-new version of the extension:
-1. Build the new zip.
-2. On GitHub, go to the `downloads` folder → upload the new file with
-   the **exact same name** (`bulk-export.zip`), which overwrites the
-   old one.
-3. Commit. The download button doesn't need any other changes — it
-   always points at that same file path.
+**Important: never overwrite a version's zip file once it's live.** Give
+every release its own filename with the version baked in, e.g.:
 
-If you add a new extension via the editor, give it its own file (e.g.
-`downloads/your-extension.zip`) and put that same path in the
-extension's "Download file path" field in `editor.html`.
+```
+downloads/bulk-export-v1.1.zip   ← stays forever, don't touch it again
+downloads/bulk-export-v1.2.zip   ← current
+downloads/bulk-export-v1.3.zip   ← next release, new file
+```
+
+This is what makes the **Version History** section on the extension
+page work — each entry in the changelog can link to its own real file,
+so customers can grab an older version if they need to, not just
+whatever's newest. If you overwrite a file instead of adding a new one,
+older changelog entries silently start pointing at the wrong version's
+file.
+
+**To release a new version:**
+1. Build the new zip, name it with the new version number
+   (`your-extension-vX.X.zip`).
+2. Upload it into the `downloads` folder on GitHub - **as a new file**,
+   don't replace an existing one.
+3. Open `editor.html` → load the extension → update the **Version**
+   field → add a new **changelog entry** at the top with that version
+   number, its own "Download file path" pointing at the new zip, and a
+   line-per-line list of what changed → Generate → paste into
+   `extensions-data.js`.
+4. Also update `pricing.downloadUrl` (the main "Download now" button's
+   target) to the new file, so the primary button always serves the
+   latest version while the changelog still offers the older ones.
+5. Commit.
+
+If you add a brand-new extension (not a new version of an existing
+one), same idea applies from day one - give it its own versioned
+filename right from v1.0.
 
 ---
 

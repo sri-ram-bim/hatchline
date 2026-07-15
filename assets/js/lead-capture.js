@@ -87,11 +87,14 @@ var HATCHLINE_COUNTRIES = [
   }
 
   var currentExt = null;
+  var currentDownloadUrl = null;
 
-  function openModal(ext){
+  function openModal(ext, downloadUrlOverride, versionLabel){
     injectModalOnce();
     currentExt = ext;
-    document.getElementById('hlModalExtLabel').textContent = ext.name;
+    currentDownloadUrl = downloadUrlOverride || ext.pricing.downloadUrl;
+    var label = ext.name + (versionLabel && downloadUrlOverride ? ' v' + versionLabel : '');
+    document.getElementById('hlModalExtLabel').textContent = label;
     document.getElementById('hlError').style.display = 'none';
     document.getElementById('hlLeadForm').reset();
     document.getElementById('hlDownloadOverlay').classList.add('open');
@@ -145,7 +148,7 @@ var HATCHLINE_COUNTRIES = [
 
     var payload = {
       name: name, email: email, company: company, country: country,
-      extension: currentExt.name, slug: currentExt.slug,
+      extension: currentExt.name, slug: currentExt.slug, downloadFile: currentDownloadUrl,
       _subject: 'Hatchline download - ' + currentExt.name + ' - ' + name
     };
 
@@ -175,6 +178,7 @@ var HATCHLINE_COUNTRIES = [
     var body = encodeURIComponent(
       'New download request via Hatchline\n\n' +
       'Extension: ' + payload.extension + '\n' +
+      'File: ' + payload.downloadFile + '\n' +
       'Name: ' + payload.name + '\n' +
       'Email: ' + payload.email + '\n' +
       'Company: ' + payload.company + '\n' +
@@ -188,7 +192,7 @@ var HATCHLINE_COUNTRIES = [
   }
 
   function finishAndDownload(){
-    triggerFileDownload(currentExt.pricing.downloadUrl);
+    triggerFileDownload(currentDownloadUrl);
     var btn = document.getElementById('hlSubmitBtn');
     btn.disabled = false;
     btn.textContent = 'Download now';

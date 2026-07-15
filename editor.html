@@ -248,6 +248,7 @@
   ], 3);
   var changelogRepeater = makeRepeater('changelogList', 'addChangelog', [
     {key:'version', label:'Version number (e.g. 1.2)'},
+    {key:'downloadUrl', label:'Download file path for THIS version (optional, e.g. downloads/bulk-export-v1.1.zip)'},
     {key:'changes', label:'Changes - one per line', type:'textarea'}
   ], 1);
   var featuresRepeater = makeRepeater('featuresList', 'addFeature', [
@@ -315,7 +316,7 @@
 
     changelogRepeater.clear();
     (ext.changelog || []).forEach(function(entry){
-      changelogRepeater.addRow({ version: entry.version, changes: (entry.changes || []).join('\n') });
+      changelogRepeater.addRow({ version: entry.version, downloadUrl: entry.downloadUrl || '', changes: (entry.changes || []).join('\n') });
     });
 
     featuresRepeater.clear();
@@ -374,6 +375,9 @@
         var changeLines = entry.changes.split('\n').map(function(s){ return s.trim(); }).filter(Boolean);
         lines.push('      {');
         lines.push('        version: ' + jsStr(entry.version) + ',');
+        if (entry.downloadUrl) {
+          lines.push('        downloadUrl: ' + jsStr(entry.downloadUrl) + ',');
+        }
         lines.push('        changes: [' + changeLines.map(jsStr).join(', ') + ']');
         lines.push('      }' + (i < changelog.length-1 ? ',' : ''));
       });
