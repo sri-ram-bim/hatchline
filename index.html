@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/png" href="assets/img/favicon-32.png">
+<link rel="shortcut icon" href="assets/img/favicon.ico">
+<link rel="apple-touch-icon" href="assets/img/favicon-180.png">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hatchline — Extensions for Revit, built by people who use them</title>
+<meta name="description" content="Hatchline is a marketplace of pyRevit extensions built by working BIM/MEP professionals. Browse extensions like Bulk Export — batch PDF, DWG, DWF, IFC and image export for Revit.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+<style>
+  .home-hero{ padding:76px 0 60px; }
+  .home-hero h1{ font-size:clamp(32px,4.4vw,50px); line-height:1.08; max-width:15ch; }
+  .home-hero h1 em{ font-style:normal; color:var(--orange); text-decoration:underline; text-decoration-color:rgba(237,137,54,.35); text-decoration-thickness:4px; text-underline-offset:6px; }
+  .home-hero p.lede{ margin-top:20px; font-size:17px; color:#454B51; max-width:56ch; }
+  .titleblock{ display:flex; align-items:center; gap:14px; font-family:var(--mono); font-size:11.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--blueprint); margin-bottom:24px; }
+  .titleblock .tagx{ border:1px solid var(--blueprint); padding:4px 9px; border-radius:2px; color:var(--blueprint); background:rgba(46,92,134,.06); }
+  .stat-strip{ display:flex; gap:44px; margin-top:36px; flex-wrap:wrap; }
+  .stat-strip div{ font-family:var(--mono); }
+  .stat-strip .num{ font-size:26px; font-weight:600; color:var(--ink); }
+  .stat-strip .lbl{ font-size:11.5px; color:var(--hair-dk); letter-spacing:.04em; text-transform:uppercase; margin-top:2px; }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner wrap" style="padding-left:0;padding-right:0;">
+    <a href="index.html" class="brand">
+      <span class="brand-mark">Hatch<span>line</span></span>
+      <span class="brand-sub">Extensions for Revit</span>
+    </a>
+    <nav class="links">
+      <a href="index.html#extensions">Extensions</a>
+      <a href="index.html#about">About</a>
+    </nav>
+    <div class="nav-cta">
+      <a class="btn btn-primary btn-sm" href="contact.html">Contact</a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- ================= HERO ================= -->
+  <section class="home-hero">
+    <div class="wrap">
+      <div class="titleblock">
+        <span class="tagx">Revit / pyRevit</span>
+        <span>Extension Marketplace</span>
+      </div>
+      <h1>Revit extensions, built by people who <em>actually run them.</em></h1>
+      <p class="lede">Hatchline lists pyRevit extensions built inside real BIM/MEP coordination work — not lab demos. Each one solves a specific, repetitive problem, priced for individuals and firms rather than enterprise procurement.</p>
+      <div class="stat-strip">
+        <div><div class="num" id="statExtCount">1</div><div class="lbl">Extension live</div></div>
+        <div><div class="num" id="statCatCount">01</div><div class="lbl" id="statCatLabel">Category — Export</div></div>
+        <div><div class="num" id="statFreeLabel">Free</div><div class="lbl" id="statFreeSub">No cost to try</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= EXTENSIONS GRID ================= -->
+  <section id="extensions" class="grid-bg">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="eyebrow">Catalog</span>
+        <h2>Browse extensions</h2>
+        <p>Every listing here is real, working software — click through for full details, compatibility notes, and pricing.</p>
+      </div>
+
+      <div class="category-label reveal">
+        <span class="eyebrow" style="margin:0;" id="catalogCategoryLabel">Category — Batch Export &amp; Documentation</span>
+        <span class="line"></span>
+      </div>
+
+      <div id="extGrid" class="ext-grid reveal"></div>
+    </div>
+  </section>
+
+  <!-- ================= ABOUT ================= -->
+  <section id="about">
+    <div class="wrap cred">
+      <div class="reveal">
+        <span class="eyebrow">About Hatchline</span>
+        <p class="cred-quote">"Every extension listed here comes from an actual production problem — built, used, and refined on real projects before it's ever offered for sale."</p>
+        <p class="cred-byline">HATCHLINE — pyRevit Extension Marketplace</p>
+      </div>
+      <div class="reveal">
+        <span class="eyebrow">How listings work</span>
+        <p style="font-size:14.5px;color:#4B5157;max-width:56ch;">Each extension is free to download — just a quick details form so the developer can follow up with updates and support. Have feedback, a bug report, or an idea for a new extension? Visit the <a href="contact.html" style="color:var(--blueprint);">Contact page</a>. More extensions and categories are added as they're built.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CTA STRIP ================= -->
+  <section>
+    <div class="wrap">
+      <div class="cta-strip reveal">
+        <div>
+          <h2>Building a Revit extension of your own?</h2>
+          <p>Hatchline is open to listing independent, working pyRevit extensions from other developers too.</p>
+        </div>
+        <a class="btn btn-primary" href="contact.html">Contact</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap foot-grid">
+    <div>
+      <span class="brand-mark">Hatch<span>line</span></span>
+      <p class="foot-note">A marketplace for independent pyRevit extensions. Not affiliated with, endorsed by, or a product of Autodesk. Revit and other named products are referenced for compatibility purposes only.</p>
+    </div>
+    <div class="foot-links">
+      <a href="index.html#extensions">Extensions</a>
+      <a href="index.html#about">About</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </div>
+  <div class="wrap">
+    <p class="foot-copy">© 2026 Hatchline. All rights reserved.</p>
+  </div>
+</footer>
+
+<script src="assets/js/extensions-data.js"></script>
+<script>
+  // ---- render extension cards from the data file ----
+  var grid = document.getElementById('extGrid');
+  HATCHLINE_EXTENSIONS.forEach(function(ext){
+    var card = document.createElement('a');
+    card.className = 'ext-card';
+    card.href = 'extension.html?slug=' + encodeURIComponent(ext.slug);
+
+    var priceLabel = ext.pricing.free ? 'Free' : ('\u20B9' + ext.pricing.inr + ' \u00b7 AED ' + ext.pricing.aed.toFixed(2));
+
+    card.innerHTML =
+      '<div class="ext-icon">' + ext.initials + '</div>' +
+      '<h3>' + ext.name + (ext.version ? ' <span class="card-version">v' + ext.version + '</span>' : '') + '</h3>' +
+      '<p class="ext-tagline">' + ext.shortDescription + '</p>' +
+      '<div class="ext-badges">' + ext.badges.map(function(b){ return '<span class="ext-badge">' + b + '</span>'; }).join('') + '</div>' +
+      '<div class="ext-meta"><span>' + ext.category + '</span><span class="price">' + priceLabel + '</span></div>';
+
+    grid.appendChild(card);
+  });
+
+  // ---- keep the hero stat strip and catalog label in sync with the data ----
+  (function(){
+    var extCount = HATCHLINE_EXTENSIONS.length;
+    var categories = HATCHLINE_EXTENSIONS.map(function(e){ return e.category; })
+      .filter(function(c, i, arr){ return arr.indexOf(c) === i; });
+    var freeCount = HATCHLINE_EXTENSIONS.filter(function(e){ return e.pricing.free; }).length;
+
+    document.getElementById('statExtCount').textContent = extCount;
+    document.getElementById('statExtCount').nextElementSibling.textContent = extCount === 1 ? 'Extension live' : 'Extensions live';
+
+    document.getElementById('statCatCount').textContent = String(categories.length).padStart(2, '0');
+    document.getElementById('statCatLabel').textContent = categories.length === 1 ? ('Category \u2014 ' + categories[0]) : (categories.length + ' categories');
+
+    var freeLabelEl = document.getElementById('statFreeLabel');
+    var freeSubEl = document.getElementById('statFreeSub');
+    if (freeCount === extCount) {
+      freeLabelEl.textContent = 'Free';
+      freeSubEl.textContent = 'No cost to try';
+    } else if (freeCount > 0) {
+      freeLabelEl.textContent = freeCount + '/' + extCount;
+      freeSubEl.textContent = 'Free to try';
+    } else {
+      freeLabelEl.textContent = 'Paid';
+      freeSubEl.textContent = 'One-time purchase';
+    }
+
+    document.getElementById('catalogCategoryLabel').textContent =
+      categories.length === 1 ? ('Category \u2014 ' + categories[0]) : ('Categories \u2014 ' + categories.join(' \u00b7 '));
+  })();
+
+  // pad the grid with a visual "more coming" placeholder
+  var placeholder = document.createElement('div');
+  placeholder.className = 'empty-card';
+  placeholder.innerHTML = '<strong>More extensions in progress</strong>Have an idea for a Revit workflow that needs automating? <a href="contact.html" style="color:var(--orange-dk);">Suggest one</a>.';
+  grid.appendChild(placeholder);
+
+  // ---- scroll reveal ----
+  var reveals = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: 0.1 });
+    reveals.forEach(function(el){ io.observe(el); });
+  } else {
+    reveals.forEach(function(el){ el.classList.add('in'); });
+  }
+</script>
+
+</body>
+</html>
