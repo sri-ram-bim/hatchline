@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/png" href="assets/img/favicon-32.png">
+<link rel="shortcut icon" href="assets/img/favicon.ico">
+<link rel="apple-touch-icon" href="assets/img/favicon-180.png">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Editor — Hatchline (not for visitors)</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+<style>
+  body{ padding-bottom:80px; }
+  .editor-wrap{ max-width:880px; margin:0 auto; padding:0 24px; }
+  .banner{ background:var(--ink); color:#fff; padding:28px 0; }
+  .banner h1{ color:#fff; font-size:26px; }
+  .banner p{ color:#C9D2DB; margin-top:8px; font-size:14.5px; max-width:70ch; }
+  .steps{ display:flex; gap:14px; margin-top:18px; flex-wrap:wrap; }
+  .steps span{ font-family:var(--mono); font-size:11.5px; background:rgba(255,255,255,.1); padding:6px 12px; border-radius:3px; }
+
+  .panel{ background:var(--paper); border:1px solid var(--hair); border-radius:6px; padding:26px; margin:26px 0; }
+  .panel h2{ font-size:18px; margin-bottom:4px; }
+  .panel .hint{ font-size:13px; color:var(--hair-dk); margin-bottom:18px; }
+
+  .field{ margin-bottom:16px; }
+  .field label{ display:block; font-family:var(--mono); font-size:11.5px; text-transform:uppercase; letter-spacing:.04em; color:var(--blueprint); margin-bottom:6px; }
+  .field input, .field textarea, .field select{
+    width:100%; padding:10px 12px; border:1px solid var(--hair); border-radius:4px;
+    font-family:var(--body); font-size:14.5px; color:var(--graphite); background:#fff;
+  }
+  .field textarea{ resize:vertical; min-height:64px; }
+  .field .note{ font-size:12px; color:var(--hair-dk); margin-top:4px; }
+  .row2{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .row3{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:16px; }
+
+  .repeat-item{ border:1px solid var(--hair); border-radius:5px; padding:16px; margin-bottom:12px; position:relative; background:var(--vellum); }
+  .repeat-item .remove-btn{
+    position:absolute; top:10px; right:10px; background:none; border:none; color:#B4483C;
+    font-family:var(--mono); font-size:12px; cursor:pointer; padding:4px 8px;
+  }
+  .add-btn{
+    background:none; border:1.5px dashed var(--hair-dk); color:var(--blueprint);
+    padding:10px 16px; border-radius:4px; font-family:var(--mono); font-size:12.5px;
+    cursor:pointer; width:100%; text-align:center;
+  }
+  .add-btn:hover{ border-color:var(--orange); color:var(--orange-dk); }
+
+  .actions{ display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+  #output{
+    width:100%; min-height:340px; font-family:var(--mono); font-size:12.5px;
+    background:var(--ink); color:#D7E4F0; border-radius:6px; padding:18px;
+    border:none; white-space:pre; overflow:auto;
+  }
+  .copy-msg{ font-family:var(--mono); font-size:12.5px; color:var(--ok); }
+  .req::after{ content:' *'; color:var(--orange-dk); }
+  .load-row{ display:flex; gap:10px; align-items:flex-end; flex-wrap:wrap; }
+  .load-row .field{ flex:1; min-width:220px; margin-bottom:0; }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner wrap" style="padding-left:0;padding-right:0;">
+    <a href="index.html" class="brand">
+      <span class="brand-mark">Hatch<span>line</span></span>
+      <span class="brand-sub">Content Editor</span>
+    </a>
+    <nav class="links"><a href="index.html">← Back to site</a></nav>
+  </div>
+</header>
+
+<div class="banner">
+  <div class="editor-wrap">
+    <h1>Content Editor</h1>
+    <p>Fill in the boxes below, click <strong>Generate Code</strong> at the bottom, then copy that text into <code style="background:rgba(255,255,255,.12);padding:2px 6px;border-radius:3px;">assets/js/extensions-data.js</code> on GitHub. You never have to write any code yourself.</p>
+    <div class="steps">
+      <span>1. Fill the form</span>
+      <span>2. Click Generate</span>
+      <span>3. Copy the result</span>
+      <span>4. Paste in GitHub → Commit</span>
+    </div>
+  </div>
+</div>
+
+<div class="editor-wrap">
+
+  <div class="panel">
+    <h2>Start here</h2>
+    <p class="hint">Editing an extension that already exists? Pick it below and the form fills itself in. Adding something brand new? Just leave this on "Create new" and fill the form from scratch.</p>
+    <div class="load-row">
+      <div class="field">
+        <label>Load existing extension</label>
+        <select id="loadSelect">
+          <option value="">— Create new —</option>
+        </select>
+      </div>
+      <button class="btn btn-ghost" id="loadBtn" type="button">Load into form</button>
+    </div>
+  </div>
+
+  <form id="extForm">
+
+    <div class="panel">
+      <h2>Basic info</h2>
+      <p class="hint">The essentials shown on the homepage card and the top of the detail page.</p>
+      <div class="row2">
+        <div class="field"><label class="req">Extension name</label><input id="f_name" placeholder="e.g. Sheet Renamer" required></div>
+        <div class="field"><label class="req">Slug (web address, no spaces)</label><input id="f_slug" placeholder="e.g. sheet-renamer"><div class="note">Lowercase, hyphens only. Becomes: extension.html?slug=this-value</div></div>
+      </div>
+      <div class="row2">
+        <div class="field"><label class="req">Category</label><input id="f_category" placeholder="e.g. Sheet Management"></div>
+        <div class="field"><label class="req">Card initials (2 letters)</label><input id="f_initials" maxlength="3" placeholder="e.g. SR"></div>
+      </div>
+      <div class="field"><label class="req">Tagline (big headline on detail page)</label><input id="f_tagline" placeholder="e.g. Rename every sheet, once."></div>
+      <div class="row2">
+        <div class="field"><label>Hero tag (small label, left)</label><input id="f_heroTag" placeholder="e.g. PyRevit Extension"></div>
+        <div class="field"><label>Hero label (small label, right)</label><input id="f_heroLabel" placeholder="e.g. Sheet Management Automation"></div>
+      </div>
+      <div class="field"><label class="req">Short description (shown on homepage card)</label><textarea id="f_short" placeholder="One or two sentences."></textarea></div>
+      <div class="field"><label class="req">Long intro (shown at top of detail page)</label><textarea id="f_long" placeholder="A slightly longer version of the short description."></textarea></div>
+      <div class="field"><label>Format badges (comma separated)</label><input id="f_badges" placeholder="e.g. PDF, DWG, CSV"></div>
+      <div class="field"><label>Version (e.g. 1.0, 1.2)</label><input id="f_version" placeholder="e.g. 1.2"></div>
+    </div>
+
+    <div class="panel">
+      <h2>Developer / credibility</h2>
+      <div class="row2">
+        <div class="field"><label class="req">Your name</label><input id="f_devName" value="Sri Ram"></div>
+        <div class="field"><label>Role</label><input id="f_devRole" value="BIM/MEP Coordination · pyRevit Developer"></div>
+      </div>
+      <div class="row2">
+        <div class="field"><label class="req">Contact email</label><input id="f_devEmail" value="sreeram14092002@gmail.com"></div>
+        <div class="field"><label>Compatibility note</label><input id="f_compat" placeholder="e.g. Revit 2022+, requires pyRevit."></div>
+      </div>
+      <div class="field"><label>Quote (shown under "Who built this")</label><textarea id="f_quote" placeholder="A sentence about why you built it."></textarea></div>
+    </div>
+
+    <div class="panel">
+      <h2>Pricing</h2>
+      <div class="field"><label style="display:flex;align-items:center;gap:8px;font-family:var(--body);text-transform:none;letter-spacing:0;font-size:14.5px;color:var(--graphite);"><input type="checkbox" id="f_isFree" style="width:auto;"> This extension is free (hides the price, shows "Free" instead)</label></div>
+      <div class="row3">
+        <div class="field"><label class="req">Price model</label><input id="f_priceModel" value="One-time purchase"></div>
+        <div class="field"><label class="req">Price (INR)</label><input id="f_priceInr" type="number" step="1" value="0"></div>
+        <div class="field"><label>Price (AED, auto-suggested)</label><input id="f_priceAed" type="number" step="0.01"></div>
+      </div>
+      <div class="field"><label>Pricing note (small text under the button)</label><input id="f_priceNote" placeholder="e.g. Launch pricing — subject to change."></div>
+      <div class="field"><label class="req">Download file path</label><input id="f_downloadUrl" placeholder="e.g. downloads/your-extension.zip"><div class="note">Where the actual .zip lives in your repo, relative to the site root. Upload the file to that exact path.</div></div>
+      <div id="includesList"></div>
+      <button type="button" class="add-btn" id="addInclude">+ Add what's included</button>
+    </div>
+
+    <div class="panel">
+      <h2>Comparison table (Manual vs. this extension)</h2>
+      <div id="comparisonList"></div>
+      <button type="button" class="add-btn" id="addComparison">+ Add comparison row</button>
+    </div>
+
+    <div class="panel">
+      <h2>Changelog / version history</h2>
+      <p class="hint">Optional. Leave empty for no version history section on the page. Newest version goes first - it gets a "Latest" tag automatically.</p>
+      <div id="changelogList"></div>
+      <button type="button" class="add-btn" id="addChangelog">+ Add version entry</button>
+    </div>
+
+    <div class="panel">
+      <h2>Features</h2>
+      <div id="featuresList"></div>
+      <button type="button" class="add-btn" id="addFeature">+ Add feature</button>
+    </div>
+
+    <div class="panel">
+      <h2>How it works (workflow steps)</h2>
+      <div id="workflowList"></div>
+      <button type="button" class="add-btn" id="addWorkflow">+ Add step</button>
+    </div>
+
+    <div class="panel">
+      <h2>FAQ</h2>
+      <div id="faqList"></div>
+      <button type="button" class="add-btn" id="addFaq">+ Add question</button>
+    </div>
+
+    <div class="panel">
+      <h2>Generate</h2>
+      <p class="hint">This produces the exact code block for this one extension. Paste instructions appear below the box once generated.</p>
+      <div class="actions">
+        <button type="button" class="btn btn-primary" id="generateBtn">Generate Code</button>
+        <button type="button" class="btn btn-ghost" id="copyBtn">Copy to clipboard</button>
+        <span class="copy-msg" id="copyMsg"></span>
+      </div>
+      <textarea id="output" readonly placeholder="Your generated code will appear here after you click Generate Code…" style="margin-top:16px;"></textarea>
+      <div id="pasteInstructions" style="margin-top:14px; font-size:13.5px; color:#4B5157;"></div>
+    </div>
+
+  </form>
+</div>
+
+<script src="assets/js/extensions-data.js"></script>
+<script>
+(function(){
+  "use strict";
+
+  // ---------- repeatable field group helper ----------
+  function makeRepeater(containerId, addBtnId, fieldDefs, initialCount){
+    var container = document.getElementById(containerId);
+    function addRow(values){
+      values = values || {};
+      var item = document.createElement('div');
+      item.className = 'repeat-item';
+      var html = '<button type="button" class="remove-btn">Remove ✕</button>';
+      fieldDefs.forEach(function(f){
+        var val = values[f.key] || '';
+        if (f.type === 'textarea') {
+          html += '<div class="field"><label>' + f.label + '</label><textarea data-key="' + f.key + '">' + escapeHtml(val) + '</textarea></div>';
+        } else {
+          html += '<div class="field"><label>' + f.label + '</label><input data-key="' + f.key + '" value="' + escapeAttr(val) + '"></div>';
+        }
+      });
+      item.innerHTML = html;
+      item.querySelector('.remove-btn').addEventListener('click', function(){ item.remove(); });
+      container.appendChild(item);
+    }
+    document.getElementById(addBtnId).addEventListener('click', function(){ addRow(); });
+    for (var i = 0; i < (initialCount || 0); i++) addRow();
+    return {
+      addRow: addRow,
+      getAll: function(){
+        var out = [];
+        container.querySelectorAll('.repeat-item').forEach(function(item){
+          var obj = {};
+          fieldDefs.forEach(function(f){
+            var el = item.querySelector('[data-key="' + f.key + '"]');
+            obj[f.key] = el ? el.value : '';
+          });
+          out.push(obj);
+        });
+        return out;
+      },
+      clear: function(){ container.innerHTML = ''; }
+    };
+  }
+
+  function escapeHtml(str){ var d=document.createElement('div'); d.textContent = str==null?'':String(str); return d.innerHTML; }
+  function escapeAttr(str){ return escapeHtml(str).replace(/"/g,'&quot;'); }
+
+  var includesRepeater = makeRepeater('includesList', 'addInclude', [{key:'text', label:'Included item'}], 3);
+  var comparisonRepeater = makeRepeater('comparisonList', 'addComparison', [
+    {key:'capability', label:'Capability'}, {key:'manual', label:'Manual way'}, {key:'tool', label:'With this extension'}
+  ], 3);
+  var changelogRepeater = makeRepeater('changelogList', 'addChangelog', [
+    {key:'version', label:'Version number (e.g. 1.2)'},
+    {key:'downloadUrl', label:'Download file path for THIS version (optional, e.g. downloads/bulk-export-v1.1.zip)'},
+    {key:'changes', label:'Changes - one per line', type:'textarea'}
+  ], 1);
+  var featuresRepeater = makeRepeater('featuresList', 'addFeature', [
+    {key:'tag', label:'Tag (e.g. 01 — NAMING)'}, {key:'title', label:'Feature title'}, {key:'body', label:'Feature description', type:'textarea'}
+  ], 3);
+  var workflowRepeater = makeRepeater('workflowList', 'addWorkflow', [
+    {key:'num', label:'Step label (e.g. 01 — SELECTION)'}, {key:'title', label:'Step title'}, {key:'body', label:'Step description', type:'textarea'}
+  ], 3);
+  var faqRepeater = makeRepeater('faqList', 'addFaq', [
+    {key:'q', label:'Question'}, {key:'a', label:'Answer', type:'textarea'}
+  ], 3);
+
+  // ---------- auto-suggest AED from INR ----------
+  document.getElementById('f_priceInr').addEventListener('input', function(){
+    var inr = parseFloat(this.value) || 0;
+    document.getElementById('f_priceAed').value = (inr * 0.0385).toFixed(2);
+  });
+
+  // ---------- load existing extension into dropdown ----------
+  var loadSelect = document.getElementById('loadSelect');
+  if (typeof HATCHLINE_EXTENSIONS !== 'undefined') {
+    HATCHLINE_EXTENSIONS.forEach(function(ext, i){
+      var opt = document.createElement('option');
+      opt.value = i;
+      opt.textContent = ext.name;
+      loadSelect.appendChild(opt);
+    });
+  }
+
+  document.getElementById('loadBtn').addEventListener('click', function(){
+    var idx = loadSelect.value;
+    if (idx === '') { alert('Select an extension first, or leave on "Create new" to start blank.'); return; }
+    var ext = HATCHLINE_EXTENSIONS[idx];
+
+    document.getElementById('f_name').value = ext.name || '';
+    document.getElementById('f_slug').value = ext.slug || '';
+    document.getElementById('f_category').value = ext.category || '';
+    document.getElementById('f_initials').value = ext.initials || '';
+    document.getElementById('f_tagline').value = ext.tagline || '';
+    document.getElementById('f_heroTag').value = ext.heroEyebrowTag || '';
+    document.getElementById('f_heroLabel').value = ext.heroEyebrowLabel || '';
+    document.getElementById('f_short').value = ext.shortDescription || '';
+    document.getElementById('f_long').value = ext.longIntro || '';
+    document.getElementById('f_badges').value = (ext.badges || []).join(', ');
+    document.getElementById('f_version').value = ext.version || '';
+
+    document.getElementById('f_devName').value = ext.developer.name || '';
+    document.getElementById('f_devRole').value = ext.developer.role || '';
+    document.getElementById('f_devEmail').value = ext.developer.email || '';
+    document.getElementById('f_quote').value = ext.developer.quote || '';
+    document.getElementById('f_compat').value = ext.compatibility || '';
+
+    document.getElementById('f_priceModel').value = ext.pricing.model || '';
+    document.getElementById('f_isFree').checked = !!ext.pricing.free;
+    document.getElementById('f_priceInr').value = ext.pricing.inr || 0;
+    document.getElementById('f_priceAed').value = ext.pricing.aed || 0;
+    document.getElementById('f_priceNote').value = ext.pricing.note || '';
+    document.getElementById('f_downloadUrl').value = ext.pricing.downloadUrl || '';
+
+    includesRepeater.clear();
+    (ext.pricing.includes || []).forEach(function(t){ includesRepeater.addRow({text: t}); });
+
+    comparisonRepeater.clear();
+    (ext.comparison || []).forEach(function(row){ comparisonRepeater.addRow(row); });
+
+    changelogRepeater.clear();
+    (ext.changelog || []).forEach(function(entry){
+      changelogRepeater.addRow({ version: entry.version, downloadUrl: entry.downloadUrl || '', changes: (entry.changes || []).join('\n') });
+    });
+
+    featuresRepeater.clear();
+    (ext.features || []).forEach(function(row){ featuresRepeater.addRow(row); });
+
+    workflowRepeater.clear();
+    (ext.workflow || []).forEach(function(row){ workflowRepeater.addRow(row); });
+
+    faqRepeater.clear();
+    (ext.faq || []).forEach(function(row){ faqRepeater.addRow(row); });
+
+    document.getElementById('pasteInstructions').innerHTML =
+      '<strong>You are editing an existing extension.</strong> After generating, replace that extension\'s whole block in extensions-data.js (from its opening <code>{</code> to matching <code>}</code>) with the new text.';
+  });
+
+  // ---------- generate code ----------
+  function jsStr(s){
+    return '"' + String(s || '').replace(/\\/g,'\\\\').replace(/"/g,'\\"').replace(/\n/g,'\\n') + '"';
+  }
+
+  document.getElementById('generateBtn').addEventListener('click', function(){
+    var slug = document.getElementById('f_slug').value.trim();
+    var name = document.getElementById('f_name').value.trim();
+    if (!slug || !name) {
+      alert('Please fill in at least the Extension name and Slug before generating.');
+      return;
+    }
+
+    var badges = document.getElementById('f_badges').value.split(',').map(function(s){ return s.trim(); }).filter(Boolean);
+    var includes = includesRepeater.getAll().map(function(r){ return r.text; }).filter(Boolean);
+    var comparison = comparisonRepeater.getAll().filter(function(r){ return r.capability; });
+    var changelog = changelogRepeater.getAll().filter(function(r){ return r.version; });
+    var features = featuresRepeater.getAll().filter(function(r){ return r.title; });
+    var workflow = workflowRepeater.getAll().filter(function(r){ return r.title; });
+    var faq = faqRepeater.getAll().filter(function(r){ return r.q; });
+
+    var lines = [];
+    lines.push('  {');
+    lines.push('    slug: ' + jsStr(slug) + ',');
+    lines.push('    name: ' + jsStr(name) + ',');
+    lines.push('    tagline: ' + jsStr(document.getElementById('f_tagline').value) + ',');
+    lines.push('    category: ' + jsStr(document.getElementById('f_category').value) + ',');
+    lines.push('    initials: ' + jsStr(document.getElementById('f_initials').value) + ',');
+    lines.push('    heroEyebrowTag: ' + jsStr(document.getElementById('f_heroTag').value) + ',');
+    lines.push('    heroEyebrowLabel: ' + jsStr(document.getElementById('f_heroLabel').value) + ',');
+    lines.push('    shortDescription: ' + jsStr(document.getElementById('f_short').value) + ',');
+    lines.push('    longIntro: ' + jsStr(document.getElementById('f_long').value) + ',');
+    lines.push('');
+    lines.push('    badges: [' + badges.map(jsStr).join(', ') + '],');
+    if (document.getElementById('f_version').value.trim()) {
+      lines.push('    version: ' + jsStr(document.getElementById('f_version').value) + ',');
+    }
+    if (changelog.length) {
+      lines.push('    changelog: [');
+      changelog.forEach(function(entry, i){
+        var changeLines = entry.changes.split('\n').map(function(s){ return s.trim(); }).filter(Boolean);
+        lines.push('      {');
+        lines.push('        version: ' + jsStr(entry.version) + ',');
+        if (entry.downloadUrl) {
+          lines.push('        downloadUrl: ' + jsStr(entry.downloadUrl) + ',');
+        }
+        lines.push('        changes: [' + changeLines.map(jsStr).join(', ') + ']');
+        lines.push('      }' + (i < changelog.length-1 ? ',' : ''));
+      });
+      lines.push('    ],');
+    }
+    lines.push('');
+    lines.push('    developer: {');
+    lines.push('      name: ' + jsStr(document.getElementById('f_devName').value) + ',');
+    lines.push('      role: ' + jsStr(document.getElementById('f_devRole').value) + ',');
+    lines.push('      email: ' + jsStr(document.getElementById('f_devEmail').value) + ',');
+    lines.push('      quote: ' + jsStr(document.getElementById('f_quote').value));
+    lines.push('    },');
+    lines.push('');
+    lines.push('    compatibility: ' + jsStr(document.getElementById('f_compat').value) + ',');
+    lines.push('');
+    lines.push('    comparison: [');
+    comparison.forEach(function(r, i){
+      lines.push('      { capability: ' + jsStr(r.capability) + ', manual: ' + jsStr(r.manual) + ', tool: ' + jsStr(r.tool) + ' }' + (i < comparison.length-1 ? ',' : ''));
+    });
+    lines.push('    ],');
+    lines.push('');
+    lines.push('    features: [');
+    features.forEach(function(r, i){
+      lines.push('      { tag: ' + jsStr(r.tag) + ', title: ' + jsStr(r.title) + ', body: ' + jsStr(r.body) + ' }' + (i < features.length-1 ? ',' : ''));
+    });
+    lines.push('    ],');
+    lines.push('');
+    lines.push('    workflow: [');
+    workflow.forEach(function(r, i){
+      lines.push('      { num: ' + jsStr(r.num) + ', title: ' + jsStr(r.title) + ', body: ' + jsStr(r.body) + ' }' + (i < workflow.length-1 ? ',' : ''));
+    });
+    lines.push('    ],');
+    lines.push('');
+    lines.push('    pricing: {');
+    lines.push('      model: ' + jsStr(document.getElementById('f_priceModel').value) + ',');
+    lines.push('      free: ' + (document.getElementById('f_isFree').checked ? 'true' : 'false') + ',');
+    lines.push('      inr: ' + (parseFloat(document.getElementById('f_priceInr').value) || 0) + ',');
+    lines.push('      aed: ' + (parseFloat(document.getElementById('f_priceAed').value) || 0) + ',');
+    lines.push('      note: ' + jsStr(document.getElementById('f_priceNote').value) + ',');
+    lines.push('      downloadUrl: ' + jsStr(document.getElementById('f_downloadUrl').value) + ',');
+    lines.push('      includes: [' + includes.map(jsStr).join(', ') + ']');
+    lines.push('    },');
+    lines.push('');
+    lines.push('    faq: [');
+    faq.forEach(function(r, i){
+      lines.push('      { q: ' + jsStr(r.q) + ', a: ' + jsStr(r.a) + ' }' + (i < faq.length-1 ? ',' : ''));
+    });
+    lines.push('    ]');
+    lines.push('  }');
+
+    document.getElementById('output').value = lines.join('\n');
+
+    document.getElementById('pasteInstructions').innerHTML =
+      '<strong>Where this goes in extensions-data.js:</strong><br>' +
+      '• Adding a NEW extension → paste this whole block right before the line that says <code>];</code> (add a comma after the previous extension\'s closing <code>}</code> first).<br>' +
+      '• Editing an EXISTING extension → find its current block (starts with <code>{</code>, ends with matching <code>}</code>) and replace the whole thing with this text.<br>' +
+      'Then commit the file on GitHub as usual — the site updates automatically.';
+  });
+
+  document.getElementById('copyBtn').addEventListener('click', function(){
+    var out = document.getElementById('output');
+    if (!out.value) { alert('Click "Generate Code" first.'); return; }
+    out.select();
+    document.execCommand('copy');
+    var msg = document.getElementById('copyMsg');
+    msg.textContent = '✓ Copied';
+    setTimeout(function(){ msg.textContent = ''; }, 2500);
+  });
+
+})();
+</script>
+
+</body>
+</html>
