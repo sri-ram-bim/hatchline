@@ -134,7 +134,7 @@
   HATCHLINE_EXTENSIONS.forEach(function(ext){
     var card = document.createElement('a');
     card.className = 'ext-card';
-    card.href = 'extension.html?slug=' + encodeURIComponent(ext.slug);
+    card.href = ext.slug + '.html';
 
     var priceLabel = ext.pricing.free ? 'Free' : ('\u20B9' + ext.pricing.inr + ' \u00b7 AED ' + ext.pricing.aed.toFixed(2));
 
