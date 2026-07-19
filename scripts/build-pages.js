@@ -77,7 +77,7 @@ extensions.forEach((ext) => {
   // Canonical link + OG tags, so social shares and search results show the
   // real per-extension page instead of the generic template.
   const extraHead =
-    `<link rel="canonical" href="https://yoursite.example/${ext.slug}.html">\n` +
+    `<link rel="canonical" href="https://sri-ram-bim.github.io/hatchline/${ext.slug}.html">\n` +
     `<meta property="og:title" content="${rendered.title.replace(/"/g, "&quot;")}">\n` +
     `<meta property="og:description" content="${rendered.description.replace(/"/g, "&quot;")}">\n` +
     `<meta property="og:type" content="website">\n`;
