@@ -77,7 +77,7 @@ extensions.forEach((ext) => {
   // Canonical link + OG tags, so social shares and search results show the
   // real per-extension page instead of the generic template.
   const extraHead =
-    `<link rel="canonical" href="https://sri-ram-bim.github.io/hatchline/${ext.slug}.html">\n` +
+    `<link rel="canonical" href="https://yoursite.example/${ext.slug}.html">\n` +
     `<meta property="og:title" content="${rendered.title.replace(/"/g, "&quot;")}">\n` +
     `<meta property="og:description" content="${rendered.description.replace(/"/g, "&quot;")}">\n` +
     `<meta property="og:type" content="website">\n`;
@@ -91,10 +91,13 @@ extensions.forEach((ext) => {
 
   // Pre-rendered body (still id="pageBody" — detail.js will hydrate/re-render
   // identically on load, so this is purely progressive enhancement for
-  // crawlers and JS-disabled visitors, not a second code path to maintain)
+  // crawlers and JS-disabled visitors, not a second code path to maintain).
+  // data-slug tells detail.js which extension this static page is for, since
+  // there's no ?slug= query string on a page like bulk-export.html the way
+  // there is on extension.html?slug=bulk-export.
   page = page.replace(
     /<main id="pageBody">[\s\S]*?<\/main>/,
-    `<main id="pageBody">${rendered.bodyHtml}</main>`
+    `<main id="pageBody" data-slug="${ext.slug}">${rendered.bodyHtml}</main>`
   );
 
   const outPath = path.join(root, `${ext.slug}.html`);
