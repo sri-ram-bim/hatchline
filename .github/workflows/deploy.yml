@@ -1,0 +1,50 @@
+name: Build and deploy Hatchline
+
+# Runs automatically on every push to main - this is the ONLY
+# thing that changed about your workflow. You still just edit
+# assets/js/extensions-data.js (via editor.html) and commit as
+# before; this Action does the SEO prerendering step for you.
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch: {}   # lets you also trigger it manually from the Actions tab
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Generate static extension pages (bulk-export.html, etc.)
+        run: node scripts/build-pages.js
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload site as a Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: "."
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
