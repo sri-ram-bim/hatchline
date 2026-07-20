@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/png" href="assets/img/favicon-32.png">
+<link rel="shortcut icon" href="assets/img/favicon.ico">
+<link rel="apple-touch-icon" href="assets/img/favicon-180.png">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What's New — Hatchline</title>
+<meta name="description" content="Every update across every Hatchline extension, in one timeline.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="What's New — Hatchline">
+<meta property="og:description" content="Every update across every Hatchline extension, in one timeline.">
+<meta property="og:image" content="https://sri-ram-bim.github.io/hatchline/assets/img/og-image.png">
+<meta property="og:url" content="https://sri-ram-bim.github.io/hatchline/whats-new.html">
+<meta property="og:site_name" content="Hatchline">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="What's New — Hatchline">
+<meta name="twitter:description" content="Every update across every Hatchline extension, in one timeline.">
+<meta name="twitter:image" content="https://sri-ram-bim.github.io/hatchline/assets/img/og-image.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+<style>
+  .wn-hero{ padding:64px 0 20px; }
+  .wn-hero h1{ font-size:clamp(30px,4vw,42px); }
+  .wn-hero p.lede{ margin-top:16px; font-size:16.5px; color:#454B51; max-width:60ch; }
+
+  .wn-entry{ display:grid; grid-template-columns:170px 1fr; gap:32px; padding:32px 0; border-bottom:1px solid var(--hair); }
+  .wn-entry:first-child{ padding-top:0; }
+  .wn-meta{ font-family:var(--mono); font-size:12px; color:var(--hair-dk); }
+  .wn-meta .wn-date{ display:block; margin-bottom:10px; }
+  .wn-ext-link{ display:inline-flex; align-items:center; gap:8px; text-decoration:none; margin-bottom:4px; }
+  .wn-ext-icon{ width:26px; height:26px; border-radius:5px; background:var(--ink); display:flex; align-items:center; justify-content:center; font-family:var(--display); font-weight:700; color:var(--orange); font-size:11px; flex:none; }
+  .wn-ext-name{ font-family:var(--body); font-size:13.5px; font-weight:600; color:var(--ink); }
+  .wn-list{ margin:12px 0 0; padding-left:20px; display:flex; flex-direction:column; gap:8px; }
+  .wn-list li{ font-size:14.5px; color:#4B5157; }
+  .wn-filter-row{ display:flex; gap:10px; flex-wrap:wrap; margin-bottom:36px; }
+  .wn-filter-btn{
+    font-family:var(--mono); font-size:12px; padding:8px 14px; border-radius:3px;
+    border:1px solid var(--hair-dk); background:var(--paper); color:var(--graphite); cursor:pointer;
+  }
+  .wn-filter-btn.active{ background:var(--ink); color:#fff; border-color:var(--ink); }
+
+  @media (max-width:700px){ .wn-entry{ grid-template-columns:1fr; gap:8px; } }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner wrap" style="padding-left:0;padding-right:0;">
+    <a href="index.html" class="brand">
+      <span class="brand-mark">Hatch<span>line</span></span>
+      <span class="brand-sub">Extensions for Revit</span>
+    </a>
+    <nav class="links">
+      <a href="index.html#extensions">Extensions</a>
+      <a href="whats-new.html">What's New</a>
+      <a href="index.html#about">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="nav-cta">
+      <a class="btn btn-ghost btn-sm" href="index.html">← Back to site</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="wn-hero">
+    <div class="wrap">
+      <span class="eyebrow">Version history</span>
+      <h1>What's new</h1>
+      <p class="lede">Every real update, across every extension listed on Hatchline, in one place — newest first.</p>
+    </div>
+  </section>
+
+  <section style="padding-top:0;">
+    <div class="wrap">
+      <div class="wn-filter-row" id="wnFilterRow"></div>
+      <div id="wnTimeline"></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot-grid">
+    <div>
+      <span class="brand-mark">Hatch<span>line</span></span>
+      <p class="foot-note">A marketplace for independent pyRevit extensions. Not affiliated with, endorsed by, or a product of Autodesk. Revit and other named products are referenced for compatibility purposes only.</p>
+    </div>
+    <div class="foot-links">
+      <a href="index.html#extensions">Extensions</a>
+      <a href="whats-new.html">What's New</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </div>
+  <div class="wrap">
+    <p class="foot-copy">© 2026 Hatchline. All rights reserved.</p>
+  </div>
+</footer>
+
+<script src="assets/js/extensions-data.js"></script>
+<script>
+(function(){
+  "use strict";
+
+  function escapeHtml(str){
+    var div = document.createElement('div');
+    div.textContent = str == null ? '' : String(str);
+    return div.innerHTML;
+  }
+
+  // ---- flatten every extension's changelog into one list ----
+  var allEntries = [];
+  HATCHLINE_EXTENSIONS.forEach(function(ext){
+    (ext.changelog || []).forEach(function(entry){
+      allEntries.push({
+        extName: ext.name,
+        extSlug: ext.slug,
+        extInitials: ext.initials,
+        version: entry.version,
+        date: entry.date || '',
+        changes: entry.changes || []
+      });
+    });
+  });
+
+  // newest first, by date string (YYYY-MM-DD sorts correctly as text)
+  allEntries.sort(function(a, b){ return (b.date || '').localeCompare(a.date || ''); });
+
+  function formatDate(iso){
+    if (!iso) return '';
+    var parts = iso.split('-');
+    if (parts.length !== 3) return iso;
+    var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    return months[parseInt(parts[1], 10) - 1] + ' ' + parseInt(parts[2], 10) + ', ' + parts[0];
+  }
+
+  function render(filterSlug){
+    var entries = filterSlug ? allEntries.filter(function(e){ return e.extSlug === filterSlug; }) : allEntries;
+    var html = entries.map(function(e){
+      var items = e.changes.map(function(c){ return '<li>' + escapeHtml(c) + '</li>'; }).join('');
+      return '<div class="wn-entry">' +
+        '<div class="wn-meta">' +
+          '<span class="wn-date">' + escapeHtml(formatDate(e.date)) + '</span>' +
+          '<a class="wn-ext-link" href="extension.html?slug=' + encodeURIComponent(e.extSlug) + '">' +
+            '<span class="wn-ext-icon">' + escapeHtml(e.extInitials) + '</span>' +
+            '<span class="wn-ext-name">' + escapeHtml(e.extName) + '</span>' +
+          '</a>' +
+        '</div>' +
+        '<div>' +
+          '<span class="version-badge">v' + escapeHtml(e.version) + '</span>' +
+          '<ul class="wn-list">' + items + '</ul>' +
+        '</div>' +
+      '</div>';
+    }).join('');
+    document.getElementById('wnTimeline').innerHTML = html || '<p style="color:var(--hair-dk);">No updates yet.</p>';
+  }
+
+  // ---- filter buttons: All + one per extension ----
+  var filterRow = document.getElementById('wnFilterRow');
+  var allBtn = document.createElement('button');
+  allBtn.className = 'wn-filter-btn active';
+  allBtn.textContent = 'All extensions';
+  allBtn.addEventListener('click', function(){
+    setActive(allBtn);
+    render(null);
+  });
+  filterRow.appendChild(allBtn);
+
+  function setActive(btn){
+    filterRow.querySelectorAll('.wn-filter-btn').forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+  }
+
+  HATCHLINE_EXTENSIONS.forEach(function(ext){
+    if (!ext.changelog || !ext.changelog.length) return;
+    var btn = document.createElement('button');
+    btn.className = 'wn-filter-btn';
+    btn.textContent = ext.name;
+    btn.addEventListener('click', function(){
+      setActive(btn);
+      render(ext.slug);
+    });
+    filterRow.appendChild(btn);
+  });
+
+  render(null);
+})();
+</script>
+
+</body>
+</html>

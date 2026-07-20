@@ -130,6 +130,7 @@
             '<div class="hero-ctas">' +
               '<a class="btn btn-primary" href="#pricing">Download \u2193</a>' +
               '<a class="btn btn-ghost" href="#workflow">See how it works \u2193</a>' +
+              (ext.docs ? '<a class="btn btn-ghost" href="docs.html?slug=' + encodeURIComponent(ext.slug) + '">Read the docs</a>' : '') +
             '</div>' +
           '</div>' +
           '<div class="queue-panel reveal" aria-hidden="true">' +

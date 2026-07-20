@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" type="image/png" href="assets/img/favicon-32.png">
+<link rel="shortcut icon" href="assets/img/favicon.ico">
+<link rel="apple-touch-icon" href="assets/img/favicon-180.png">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Request an Extension — Hatchline</title>
+<meta name="description" content="Tell us what repetitive Revit workflow needs automating - we'll let you know if we can build it.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Request an Extension — Hatchline">
+<meta property="og:description" content="Tell us what repetitive Revit workflow needs automating - we'll let you know if we can build it.">
+<meta property="og:image" content="https://sri-ram-bim.github.io/hatchline/assets/img/og-image.png">
+<meta property="og:url" content="https://sri-ram-bim.github.io/hatchline/request-extension.html">
+<meta property="og:site_name" content="Hatchline">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Request an Extension — Hatchline">
+<meta name="twitter:description" content="Tell us what repetitive Revit workflow needs automating - we'll let you know if we can build it.">
+<meta name="twitter:image" content="https://sri-ram-bim.github.io/hatchline/assets/img/og-image.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+<style>
+  .req-hero{ padding:64px 0 20px; }
+  .req-hero h1{ font-size:clamp(30px,4vw,42px); }
+  .req-hero p.lede{ margin-top:16px; font-size:16.5px; color:#454B51; max-width:60ch; }
+
+  .req-card{ background:var(--paper); border:1px solid var(--hair); border-radius:6px; padding:32px; max-width:720px; }
+  .field{ margin-bottom:18px; }
+  .field label{ display:block; font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:.04em; color:var(--blueprint); margin-bottom:6px; }
+  .field .hint{ font-size:12.5px; color:var(--hair-dk); margin-top:5px; }
+  .field input, .field select, .field textarea{
+    width:100%; padding:11px 13px; border:1px solid var(--hair); border-radius:4px;
+    font-family:var(--body); font-size:14.5px; color:var(--graphite); background:#fff;
+  }
+  .field textarea{ min-height:110px; resize:vertical; }
+  .field input:focus, .field select:focus, .field textarea:focus{ border-color:var(--orange); outline:none; }
+  .req-mark{ color:var(--orange-dk); }
+  .row2{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+
+  #formMsg{ font-size:13.5px; margin-top:14px; display:none; }
+  #formMsg.ok{ color:var(--ok); }
+  #formMsg.err{ color:#B4483C; }
+
+  @media (max-width:640px){ .row2{ grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner wrap" style="padding-left:0;padding-right:0;">
+    <a href="index.html" class="brand">
+      <span class="brand-mark">Hatch<span>line</span></span>
+      <span class="brand-sub">Extensions for Revit</span>
+    </a>
+    <nav class="links">
+      <a href="index.html#extensions">Extensions</a>
+      <a href="whats-new.html">What's New</a>
+      <a href="index.html#about">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="nav-cta">
+      <a class="btn btn-ghost btn-sm" href="index.html">← Back to site</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="req-hero">
+    <div class="wrap">
+      <span class="eyebrow">Got an idea?</span>
+      <h1>Request an extension</h1>
+      <p class="lede">Every extension on Hatchline started as a real, repetitive job someone was tired of doing by hand. Tell us about yours — the more specific, the better we can judge if it's worth building.</p>
+    </div>
+  </section>
+
+  <section style="padding-top:0;">
+    <div class="wrap">
+      <div class="req-card">
+        <form id="reqForm" novalidate>
+          <div class="row2">
+            <div class="field"><label>Name<span class="req-mark">*</span></label><input id="rName" required autocomplete="name"></div>
+            <div class="field"><label>Email<span class="req-mark">*</span></label><input id="rEmail" type="email" required autocomplete="email"></div>
+          </div>
+
+          <div class="field">
+            <label>What repetitive task do you want automated?<span class="req-mark">*</span></label>
+            <textarea id="rTask" required placeholder="e.g. Every issue day I have to rename 200 sheets to match our client's numbering convention, one at a time…"></textarea>
+          </div>
+
+          <div class="row2">
+            <div class="field">
+              <label>How often do you do this manually?</label>
+              <select id="rFrequency">
+                <option value="Daily">Daily</option>
+                <option value="Weekly" selected>Weekly</option>
+                <option value="Monthly">Monthly</option>
+                <option value="Per project milestone">Per project milestone</option>
+                <option value="Rarely, but painful when it happens">Rarely, but painful when it happens</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Which Revit version(s) do you use?</label>
+              <input id="rRevitVersion" placeholder="e.g. 2024, 2025">
+            </div>
+          </div>
+
+          <div class="field">
+            <label>Anything else worth knowing? (optional)</label>
+            <textarea id="rNotes" placeholder="Screenshots, links to similar tools, edge cases, whatever helps."></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary" id="rSubmitBtn" style="width:100%;justify-content:center;">Send request</button>
+          <p id="formMsg"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot-grid">
+    <div>
+      <span class="brand-mark">Hatch<span>line</span></span>
+      <p class="foot-note">A marketplace for independent pyRevit extensions. Not affiliated with, endorsed by, or a product of Autodesk. Revit and other named products are referenced for compatibility purposes only.</p>
+    </div>
+    <div class="foot-links">
+      <a href="index.html#extensions">Extensions</a>
+      <a href="whats-new.html">What's New</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </div>
+  <div class="wrap">
+    <p class="foot-copy">© 2026 Hatchline. All rights reserved.</p>
+  </div>
+</footer>
+
+<script src="assets/js/config.js"></script>
+<script src="assets/js/request-extension.js"></script>
+
+</body>
+</html>

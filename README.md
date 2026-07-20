@@ -135,23 +135,65 @@ your Formspree endpoint, that's the only place to update it.
 
 ```
 hatchline/
-├── index.html              ← homepage (extension grid)
+├── index.html              ← homepage (extension grid + newsletter signup)
 ├── extension.html          ← detail page template (reads ?slug=...)
+├── docs.html                ← per-extension documentation (reads ?slug=...)
+├── whats-new.html           ← unified changelog across every extension
+├── request-extension.html   ← structured "request a new extension" form
 ├── contact.html             ← contact page + feedback/complaint form
 ├── editor.html              ← ⭐ NO-CODE EDITOR — open this to make changes ⭐
+├── 404.html                  ← custom not-found page (GitHub Pages serves this automatically)
+├── robots.txt                ← crawler rules, points at sitemap.xml
+├── sitemap.xml               ← lists every real page for search engines
 ├── downloads/
-│   └── bulk-export.zip      ← the actual file customers download
+│   ├── bulk-export-v1.1.zip
+│   ├── bulk-export-v1.2.zip
+│   └── quick-sheets.zip
 └── assets/
     ├── css/style.css       ← all styling, shared by all pages
-    ├── js/config.js         ← Formspree endpoint (shared by download + contact forms)
-    ├── js/extensions-data.js  ← the file editor.html reads/writes
+    ├── js/config.js         ← Formspree endpoint (shared by every form on the site)
+    ├── js/extensions-data.js  ← the file editor.html reads/writes (now also holds docs + changelog dates)
     ├── js/detail.js         ← renders extension.html from the data file
+    ├── js/docs.js            ← renders docs.html from the data file's "docs" field
     ├── js/lead-capture.js   ← the download-gate form
     ├── js/contact.js         ← the contact page's form handler
-    └── img/                 ← icons/images
+    ├── js/request-extension.js ← the request-an-extension form handler
+    ├── js/newsletter.js      ← the homepage newsletter signup handler
+    └── img/                 ← icons, favicon, and the social-share (Open Graph) image
 ```
 
+### What's new in this upgrade batch
+
+- **Social share cards** — every page now has Open Graph/Twitter Card tags,
+  so links posted to LinkedIn/WhatsApp/etc. show a real title, description,
+  and image instead of nothing. One honest limitation: `extension.html`'s
+  tags are static (generic "Hatchline extension" text) rather than
+  per-extension, since social media crawlers don't run the JavaScript that
+  builds the page - fixing that properly would need server-side rendering,
+  which a GitHub Pages static site can't do.
+- **404.html** — GitHub Pages automatically serves this for any missing
+  page, no configuration needed.
+- **robots.txt / sitemap.xml** — update `sitemap.xml` by hand (or ask for
+  help) whenever you add a new extension's detail/docs URLs.
+- **What's New** (`whats-new.html`) — pulls every extension's `changelog`
+  array and merges them into one timeline, sorted by the `date` field on
+  each entry. Add a `date: "YYYY-MM-DD"` to any new changelog entry you
+  write via `editor.html` or by hand, or it won't sort correctly.
+- **Request an extension** (`request-extension.html`) — a structured form
+  (task description, frequency, Revit version) replacing the old plain
+  "Suggest one" mailto link. Submits to the same Formspree endpoint,
+  tagged so you can tell requests apart from download leads/complaints.
+- **Newsletter signup** — email-only capture on the homepage, tagged
+  separately in Formspree too.
+- **Per-extension docs** (`docs.html?slug=...`) — a longer-form setup/
+  troubleshooting guide per extension, driven by a new `docs.sections`
+  field in `extensions-data.js`. **Not yet supported in the no-code
+  editor** - adding or editing docs content currently means editing
+  `extensions-data.js` directly (the `docs` field is straightforward:
+  an array of `{ heading, paragraphs, code, paragraphsAfter }` objects).
+
 ---
+
 
 ## Making this a live website
 

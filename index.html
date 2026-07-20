@@ -8,6 +8,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Hatchline — Extensions for Revit, built by people who use them</title>
 <meta name="description" content="Hatchline is a marketplace of pyRevit extensions built by working BIM/MEP professionals. Browse extensions like Bulk Export — batch PDF, DWG, DWF, IFC and image export for Revit.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Hatchline — Extensions for Revit, built by people who use them">
+<meta property="og:description" content="Hatchline is a marketplace of pyRevit extensions built by working BIM/MEP professionals. Browse extensions like Bulk Export — batch PDF, DWG, DWF, IFC and image export for Revit.">
+<meta property="og:image" content="https://sri-ram-bim.github.io/hatchline/assets/img/og-image.png">
+<meta property="og:url" content="https://sri-ram-bim.github.io/hatchline/index.html">
+<meta property="og:site_name" content="Hatchline">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Hatchline — Extensions for Revit, built by people who use them">
+<meta name="twitter:description" content="Hatchline is a marketplace of pyRevit extensions built by working BIM/MEP professionals. Browse extensions like Bulk Export — batch PDF, DWG, DWF, IFC and image export for Revit.">
+<meta name="twitter:image" content="https://sri-ram-bim.github.io/hatchline/assets/img/og-image.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -35,7 +45,9 @@
     </a>
     <nav class="links">
       <a href="index.html#extensions">Extensions</a>
+      <a href="whats-new.html">What's New</a>
       <a href="index.html#about">About</a>
+      <a href="contact.html">Contact</a>
     </nav>
     <div class="nav-cta">
       <a class="btn btn-primary btn-sm" href="contact.html">Contact</a>
@@ -95,6 +107,24 @@
     </div>
   </section>
 
+  <!-- ================= NEWSLETTER ================= -->
+  <section class="grid-bg">
+    <div class="wrap">
+      <div class="newsletter-box reveal">
+        <div>
+          <span class="eyebrow">Stay in the loop</span>
+          <h2>Get notified about new extensions</h2>
+          <p>No spam, no schedule — just an email when something new ships or an existing extension gets a real update.</p>
+        </div>
+        <form id="newsletterForm" class="newsletter-form">
+          <input type="email" id="newsletterEmail" placeholder="you@company.com" required autocomplete="email">
+          <button type="submit" class="btn btn-primary" id="newsletterBtn">Notify me</button>
+        </form>
+      </div>
+      <p id="newsletterMsg" class="newsletter-msg"></p>
+    </div>
+  </section>
+
   <!-- ================= CTA STRIP ================= -->
   <section>
     <div class="wrap">
@@ -128,6 +158,8 @@
 </footer>
 
 <script src="assets/js/extensions-data.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/newsletter.js"></script>
 <script>
   // ---- render extension cards from the data file ----
   var grid = document.getElementById('extGrid');
@@ -181,7 +213,7 @@
   // pad the grid with a visual "more coming" placeholder
   var placeholder = document.createElement('div');
   placeholder.className = 'empty-card';
-  placeholder.innerHTML = '<strong>More extensions in progress</strong>Have an idea for a Revit workflow that needs automating? <a href="contact.html" style="color:var(--orange-dk);">Suggest one</a>.';
+  placeholder.innerHTML = '<strong>More extensions in progress</strong>Have an idea for a Revit workflow that needs automating? <a href="request-extension.html" style="color:var(--orange-dk);">Suggest one</a>.';
   grid.appendChild(placeholder);
 
   // ---- scroll reveal ----

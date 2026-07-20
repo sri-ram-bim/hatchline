@@ -29,6 +29,7 @@ const HATCHLINE_EXTENSIONS = [
     changelog: [
       {
         version: "1.2",
+        date: "2026-07-15",
         downloadUrl: "downloads/bulk-export-v1.2.zip",
         changes: [
           "Added Scheduled Export — run a full batch export automatically via Windows Task Scheduler, no one has to open Revit or click through the dialog",
@@ -42,6 +43,7 @@ const HATCHLINE_EXTENSIONS = [
       },
       {
         version: "1.1",
+        date: "2026-07-09",
         downloadUrl: "downloads/bulk-export-v1.1.zip",
         changes: [
           "Initial public release: batch PDF, DWG, DWF, IFC and Image export in one pass",
@@ -101,6 +103,56 @@ const HATCHLINE_EXTENSIONS = [
       ]
     },
 
+    docs: {
+      sections: [
+        {
+          heading: "Installation",
+          paragraphs: [
+            "Bulk Export runs as a pyRevit extension — pyRevit itself needs to be installed first (free, from pyrevitlabs.io). Once you have it, download the extension zip from the pricing section on this page.",
+            "Extract the zip, then copy the whole \"BulkExport.extension\" folder into your pyRevit Extensions directory, typically:"
+          ],
+          code: "%APPDATA%\\pyRevit\\Extensions\\BulkExport.extension",
+          paragraphsAfter: [
+            "Then fully close and reopen Revit (not just pyRevit's \"Reload\" button — a full restart is needed to pick up a new ribbon tab). You should see a new \"MEP Batch Tools\" tab with a Bulk Export button."
+          ]
+        },
+        {
+          heading: "Basic workflow",
+          paragraphs: [
+            "The dialog is organized as three tabs: Selection (pick which sheets to export), Format (turn on PDF/DWG/DWF/IFC/IMG and configure each one's settings — only the settings relevant to the formats you've ticked are shown), and Create (build your filename pattern, pick an output folder, and run the export)."
+          ]
+        },
+        {
+          heading: "DWG Export Setup",
+          paragraphs: [
+            "When DWG is ticked, a dropdown appears listing the actual DWG export setups already saved in your Revit model (Manage tab → Export Setups → DWG/DXF). Pick one to use its exact layer mapping and settings, or leave it on \"<Default Revit Settings>\" to use Revit's defaults instead."
+          ]
+        },
+        {
+          heading: "Profiles — saving and sharing settings",
+          paragraphs: [
+            "The Profile bar at the top of the dialog lets you save your entire configuration (formats, paper settings, naming pattern, DWG setup choice, output folder) as a named profile, stored locally on your machine.",
+            "To share a profile with a teammate: click \"Export...\" to save it as a portable .xml file, send it to them any way you like (email, Teams, shared drive), and they load it via \"Import...\" — they'll get the identical setup, including your naming convention."
+          ]
+        },
+        {
+          heading: "Scheduled / unattended export",
+          paragraphs: [
+            "A second ribbon button, \"Scheduled Export\", lets you test the automated export path manually before trusting it to run on its own.",
+            "For real unattended runs: edit lib/scheduled_export_config.json to point at a saved profile, edit lib/run_scheduled_export.bat.example with your model path and Revit version (rename it to remove \".example\"), then point Windows Task Scheduler at that .bat file. Every run writes a log to %APPDATA%\\BulkExportTools\\Logs\\ so a failed overnight run is diagnosable the next morning."
+          ]
+        },
+        {
+          heading: "Troubleshooting",
+          paragraphs: [
+            "If the extension doesn't show up after installing: confirm you fully closed and reopened Revit, not just used pyRevit's Reload.",
+            "If a specific export setting silently doesn't apply (logged as a warning, not a crash): this usually means that specific Revit API property changed name on your installed version. The tool is built to skip that one setting and continue rather than fail the whole batch — check the summary at the end of a run for exactly which settings were skipped.",
+            "If exports are missing entirely and you're on Revit 2027: some Revit API behavior changed with its move to a newer .NET runtime. Test on a sandbox project first, and report the exact error text if something fails."
+          ]
+        }
+      ]
+    },
+
     faq: [
       { q: "Which Revit versions are supported?", a: "PDF export requires Revit 2022 or newer — that's when Autodesk added a native PDF export API. DWG, DWF and image export go back further. 2024–2026 are fully tested; 2027 moved to .NET 10 with some API cleanup, so test on a sandbox project first on that version." },
       { q: "Does NWC export work out of the box?", a: "NWC export needs the separate Navisworks Exporter for Revit add-in installed — that's an Autodesk requirement, not a Bulk Export limitation. It's off by default and gated behind an explicit switch so it never runs by accident." },
@@ -126,6 +178,18 @@ const HATCHLINE_EXTENSIONS = [
     badges: ["PDF", "DWG", "CSV", "TXT"],
 
     version: "1.0",
+    changelog: [
+      {
+        version: "1.0",
+        date: "2026-07-13",
+        downloadUrl: "downloads/quick-sheets.zip",
+        changes: [
+          "Initial public release: 9 project-management tools in one pyRevit tab",
+          "Batch Export, Sheets From Views, Align Viewports, Copy/Move Legends & Viewports",
+          "Bulk Rename Sheets, Select By ID, Model Cleanup, Bulk Create Worksets, Flip Grids"
+        ]
+      }
+    ],
 
     developer: {
       name: "Ramesh Prakash",
@@ -175,6 +239,33 @@ const HATCHLINE_EXTENSIONS = [
         "CSV/TXT-driven bulk sheet and workset tools",
         "Model cleanup checklist",
         "Email support"
+      ]
+    },
+
+    docs: {
+      sections: [
+        {
+          heading: "Installation",
+          paragraphs: [
+            "RP Tools runs as a pyRevit extension — pyRevit 4.8 or newer needs to be installed first. Download the zip from the pricing section on this page, extract it, and copy the extension folder into your pyRevit Extensions directory."
+          ],
+          code: "%APPDATA%\\pyRevit\\Extensions\\",
+          paragraphsAfter: [
+            "Fully close and reopen Revit afterward. You'll get a new \"ProjectManagement\" tab with five panels: Export, Sheets, Selection, Worksets, and Grids."
+          ]
+        },
+        {
+          heading: "Model Cleanup — read this first",
+          paragraphs: [
+            "Back up your model before running Model Cleanup on a live project. Most of what it does (purging unused elements, removing empty groups, etc.) isn't easily undoable once saved or synced — that's why it's a checklist you select items from, not a single always-everything button."
+          ]
+        },
+        {
+          heading: "Bulk-creating worksets or renaming sheets",
+          paragraphs: [
+            "Both the workset creation and sheet renaming tools read from a plain text file (.txt for worksets, .csv for a number-to-name mapping for sheets). Point the tool at your file and it reports back what it created, what it skipped, and what failed — nothing happens silently."
+          ]
+        }
       ]
     },
 
