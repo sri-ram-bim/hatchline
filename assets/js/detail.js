@@ -162,6 +162,7 @@
           '</table>' +
         '</div>' +
         '<p class="schedule-note">' + escapeHtml(ext.compatibility) + '</p>' +
+        '<img src="assets/img/badge-pyrevit.png" alt="Built on pyRevit" width="200" height="65" style="margin-top:18px;">' +
       '</div>' +
     '</section>' +
 

@@ -26,7 +26,16 @@
   .home-hero{ padding:76px 0 60px; }
   .home-hero h1{ font-size:clamp(32px,4.4vw,50px); line-height:1.08; max-width:15ch; }
   .home-hero h1 em{ font-style:normal; color:var(--orange); text-decoration:underline; text-decoration-color:rgba(237,137,54,.35); text-decoration-thickness:4px; text-underline-offset:6px; }
+  .home-hero-grid{ display:grid; grid-template-columns:1.05fr .95fr; gap:50px; align-items:center; }
   .home-hero p.lede{ margin-top:20px; font-size:17px; color:#454B51; max-width:56ch; }
+  .home-hero-art{ display:flex; justify-content:center; }
+  .home-hero-art img{ max-width:100%; height:auto; }
+  .compat-row{ display:flex; gap:14px; margin-top:32px; flex-wrap:wrap; }
+  .compat-row img{ display:block; height:auto; max-width:220px; }
+  @media (max-width:900px){
+    .home-hero-grid{ grid-template-columns:1fr; }
+    .home-hero-art{ order:-1; max-width:420px; margin:0 auto; }
+  }
   .titleblock{ display:flex; align-items:center; gap:14px; font-family:var(--mono); font-size:11.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--blueprint); margin-bottom:24px; }
   .titleblock .tagx{ border:1px solid var(--blueprint); padding:4px 9px; border-radius:2px; color:var(--blueprint); background:rgba(46,92,134,.06); }
   .stat-strip{ display:flex; gap:44px; margin-top:36px; flex-wrap:wrap; }
@@ -59,17 +68,26 @@
 
   <!-- ================= HERO ================= -->
   <section class="home-hero">
-    <div class="wrap">
-      <div class="titleblock">
-        <span class="tagx">Revit / pyRevit</span>
-        <span>Extension Marketplace</span>
+    <div class="wrap home-hero-grid">
+      <div>
+        <div class="titleblock">
+          <span class="tagx">Revit / pyRevit</span>
+          <span>Extension Marketplace</span>
+        </div>
+        <h1>Revit extensions, built by people who <em>actually run them.</em></h1>
+        <p class="lede">Hatchline lists pyRevit extensions built inside real BIM/MEP coordination work — not lab demos. Each one solves a specific, repetitive problem, priced for individuals and firms rather than enterprise procurement.</p>
+        <div class="stat-strip">
+          <div><div class="num" id="statExtCount">1</div><div class="lbl">Extension live</div></div>
+          <div><div class="num" id="statCatCount">01</div><div class="lbl" id="statCatLabel">Category — Export</div></div>
+          <div><div class="num" id="statFreeLabel">Free</div><div class="lbl" id="statFreeSub">No cost to try</div></div>
+        </div>
+        <div class="compat-row">
+          <img src="assets/img/badge-revit.png" alt="Compatible with Revit 2024-2027" width="240" height="78">
+          <img src="assets/img/badge-pyrevit.png" alt="Built on pyRevit" width="240" height="78">
+        </div>
       </div>
-      <h1>Revit extensions, built by people who <em>actually run them.</em></h1>
-      <p class="lede">Hatchline lists pyRevit extensions built inside real BIM/MEP coordination work — not lab demos. Each one solves a specific, repetitive problem, priced for individuals and firms rather than enterprise procurement.</p>
-      <div class="stat-strip">
-        <div><div class="num" id="statExtCount">1</div><div class="lbl">Extension live</div></div>
-        <div><div class="num" id="statCatCount">01</div><div class="lbl" id="statCatLabel">Category — Export</div></div>
-        <div><div class="num" id="statFreeLabel">Free</div><div class="lbl" id="statFreeSub">No cost to try</div></div>
+      <div class="home-hero-art">
+        <img src="assets/img/hero-illustration.png" alt="Illustration of Revit sheets batch-exporting to PDF, DWG, DWF, IFC and image formats">
       </div>
     </div>
   </section>
