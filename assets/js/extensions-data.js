@@ -20,8 +20,8 @@ const HATCHLINE_EXTENSIONS = [
     initials: "BE",
     heroEyebrowTag: "PyRevit Extension",
     heroEyebrowLabel: "Sheet Export Automation",
-    shortDescription: "Batches PDF, DWG, DWF, IFC and image exports out of Revit in a single pass — with real DWG export setups, a parameter-driven filename builder, and profiles your whole team can share.",
-    longIntro: "Bulk Export batches PDF, DWG, DWF, IFC and image exports straight out of Revit — one run instead of six dialogs. Built as a fast, customizable extension for teams who want more control than a single-format export gives them.",
+    shortDescription: "Batches PDF, DWG, DWF, IFC and image exports out of Revit in a single pass — with real DWG export setups, a parameter-driven filename builder, shareable team profiles, and scheduled/unattended exports via Windows Task Scheduler.",
+    longIntro: "Bulk Export batches PDF, DWG, DWF, IFC and image exports straight out of Revit — one run instead of six dialogs. Includes Scheduled Export, so a saved profile can run a full batch export automatically overnight with no one at the keyboard. Built as a fast, customizable extension for teams who want more control than a single-format export gives them.",
 
     badges: ["PDF", "DWG", "DWF", "IFC", "IMG"],
 
@@ -66,7 +66,8 @@ const HATCHLINE_EXTENSIONS = [
       { capability: "File naming", manual: "Manual rename after export", tool: "Built from sheet/project parameters automatically" },
       { capability: "DWG export setup", manual: "Re-selected every time", tool: "Pulled from your model's saved setups" },
       { capability: "Team consistency", manual: "Depends on who ran it", tool: "Shared XML profile, same settings for everyone" },
-      { capability: "Run reporting", manual: "No log — failures go unnoticed", tool: "Pass/fail summary per sheet, every run" }
+      { capability: "Run reporting", manual: "No log — failures go unnoticed", tool: "Pass/fail summary per sheet, every run" },
+      { capability: "Unattended runs", manual: "Someone has to sit there and click through it", tool: "Scheduled via Windows Task Scheduler — runs overnight, no one watching" }
     ],
 
     features: [
@@ -75,7 +76,8 @@ const HATCHLINE_EXTENSIONS = [
       { tag: "03 — CAD", title: "Real DWG export setups", body: "Reads the DWG export setups already saved in your model, so your CAD team gets the layer mapping it already expects." },
       { tag: "04 — TEAM", title: "Shareable XML profiles", body: "Save an export configuration once, hand the file to your team, and everyone exports sheets the same way — every time." },
       { tag: "05 — WORKFLOW", title: "Selection → Format → Create", body: "Sheet picking, format settings and output live in separate tabs, so a big export run never turns into one overwhelming dialog." },
-      { tag: "06 — REPORTING", title: "Clear run reports", body: "Every export ends with a pass/fail count per sheet, so one failed PDF in a batch of 200 doesn't disappear silently." }
+      { tag: "06 — REPORTING", title: "Clear run reports", body: "Every export ends with a pass/fail count per sheet, so one failed PDF in a batch of 200 doesn't disappear silently." },
+      { tag: "07 — AUTOMATION", title: "Scheduled / unattended export", body: "Point Windows Task Scheduler at a saved profile and it runs a full batch export automatically — nightly issue sets, no one has to open Revit or click through the dialog." }
     ],
 
     workflow: [
@@ -104,6 +106,7 @@ const HATCHLINE_EXTENSIONS = [
       { q: "Does NWC export work out of the box?", a: "NWC export needs the separate Navisworks Exporter for Revit add-in installed — that's an Autodesk requirement, not a Bulk Export limitation. It's off by default and gated behind an explicit switch so it never runs by accident." },
       { q: "What about DGN export?", a: "Revit's public API has no DGN export class at all, so it isn't available for automation here. DGN still has to be exported manually through Revit's own File > Export menu." },
       { q: "Can my whole team use the same export settings?", a: "Yes — save your configuration as an XML profile and export it to a shared drive or send it directly. Teammates import it and get the identical setup, including naming pattern and DWG export setup choice." },
+      { q: "Can this run automatically without opening Revit?", a: "Yes — Scheduled Export lets you point Windows Task Scheduler at a saved profile and run a full batch export unattended, e.g. every night. There's also a manual \"Scheduled Export\" ribbon button to test your setup with a person watching before trusting it to run on its own." },
       { q: "Do I need anything besides Revit installed?", a: "Yes — Bulk Export runs as a pyRevit extension, so pyRevit needs to be installed first. Mention that when you request access and we'll walk through setup." }
     ]
   },
